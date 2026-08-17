@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" role="img" aria-labelledby="title desc">
+  <title id="title">封面背景占位图</title><desc id="desc">使用 16 比 9 横向背景图替换本文件</desc>
+  <defs><linearGradient id="sky" x2="0" y2="1"><stop stop-color="#dbe8ff"/><stop offset=".6" stop-color="#f0edf9"/><stop offset="1" stop-color="#f8eadf"/></linearGradient><linearGradient id="hill" x2="0" y2="1"><stop stop-color="#8fcbbd"/><stop offset="1" stop-color="#3e7d83"/></linearGradient><filter id="blur"><feGaussianBlur stdDeviation="38"/></filter></defs>
+  <rect width="1920" height="1080" fill="url(#sky)"/>
+  <circle cx="300" cy="240" r="230" fill="#ccbdfb" opacity=".42" filter="url(#blur)"/><circle cx="1600" cy="270" r="300" fill="#88d9e8" opacity=".42" filter="url(#blur)"/>
+  <path d="M0 710c220-170 430-200 640-75 210 124 360 110 565-25 230-151 462-107 715 55v415H0Z" fill="#a8d8c9" opacity=".72"/>
+  <path d="M0 805c280-150 520-130 730 5 202 130 388 120 585 2 205-123 402-117 605-17v285H0Z" fill="url(#hill)" opacity=".88"/>
+  <g fill="#fff" opacity=".68"><circle cx="210" cy="690" r="7"/><circle cx="260" cy="745" r="5"/><circle cx="1510" cy="700" r="8"/><circle cx="1650" cy="785" r="5"/></g>
+</svg>

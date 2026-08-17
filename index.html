@@ -1,14 +1,105 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>涂佳利的个人网站</title>
+  <meta name="description" content="涂佳利的 Unity 客户端开发作品集，展示游戏项目、工程实践与个人经历。">
+  <meta name="theme-color" content="#f5f7ff">
+  <title>涂佳利｜Unity 客户端开发</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
 </head>
-<body>
-  <p>Hello 大家好</p>
-  <p>我是涂佳利，这是我的个人网站。</p>
+<body data-page="home">
+  <div class="page-loader" aria-hidden="true">
+    <div class="loader-mark">TJL<span>.</span></div>
+    <div class="loader-line"><i></i></div>
+  </div>
 
-  <!-- 其他原有内容放在这里 -->
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="返回首页">
+      <span class="brand-mark">TJ</span>
+      <span class="brand-copy"><b>涂佳利</b><small>UNITY CLIENT DEVELOPER</small></span>
+    </a>
+    <nav class="topnav" aria-label="主导航">
+      <a data-nav="home" href="index.html">首页</a>
+      <a data-nav="works" href="works.html">作品</a>
+      <a data-nav="experience" href="experience.html">经历</a>
+      <a data-nav="about" href="about.html">关于</a>
+      <a data-nav="resume" href="resume.html">简历</a>
+    </nav>
+    <div class="top-actions">
+      <button class="theme-toggle" type="button" aria-label="切换深浅主题"><span>◐</span></button>
+      <a class="mini-cta" href="mailto:2846314132@qq.com">联系我 ↗</a>
+    </div>
+  </header>
+
+  <aside class="side-rail" aria-label="页面章节">
+    <span>01</span><i></i><span>HOME</span>
+  </aside>
+
+  <main>
+    <section class="hero" id="home">
+      <canvas class="particle-canvas" aria-hidden="true"></canvas>
+      <div class="hero-video" aria-hidden="true">
+        <img class="hero-background-image" src="assets/images/背景.jpg" alt="">
+      </div>
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="hero-center">
+        <div class="hero-visual" aria-label="个人头像占位区域">
+          <div class="portrait-card glass-panel">
+            <img src="assets/images/肖像图.png" alt="涂佳利个人肖像插画">
+          </div>
+        </div>
+        <h1 class="hero-name">涂佳利</h1>
+        <p class="hero-role">UNITY CLIENT DEVELOPER</p>
+        <div class="hero-copy">
+          <p class="hero-intro">你好，我是涂佳利，一名面向校招的 Unity 客户端开发者。关注玩法系统、DOTS 高性能实践与 AI 驱动的工程效率。</p>
+          <div class="hero-meta">
+            <span>本科应届生</span>
+            <span>Unity / C# / ECS</span>
+          </div>
+          <div class="hero-actions">
+            <a class="button primary" href="works.html">查看精选作品 <b>↗</b></a>
+            <a class="button ghost" href="resume.html">查看并下载简历</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-preview section-shell">
+      <div class="section-heading">
+        <div><p class="kicker">SELECTED WORK / 01</p><h2>从一个高性能实验，<br>看见工程潜力。</h2></div>
+        <p>初稿以 DOTS 骨骼动画 Demo 作为核心项目，其他项目保留清晰占位，后续替换不会影响布局。</p>
+      </div>
+      <a class="featured-project" href="project-dots.html">
+        <div class="featured-media">
+          <img src="assets/images/projects/dots/cover.svg" alt="DOTS 骨骼动画 Demo 占位封面">
+          <span class="media-badge">FEATURED · 2026</span>
+        </div>
+        <div class="featured-info">
+          <p>01 / UNITY DOTS</p>
+          <h3>DOTS 骨骼动画测试 Demo</h3>
+          <p>GPU 骨骼动画烘焙、ECS 多线程更新与 GPU Instancing 批量渲染。</p>
+          <div class="tag-row"><span>Unity</span><span>C#</span><span>ECS</span><span>Shader</span></div>
+          <b class="circle-arrow">↗</b>
+        </div>
+      </a>
+    </section>
+
+    <section class="home-stats section-shell">
+      <div><strong>03</strong><span>精品项目规划</span></div>
+      <div><strong>79/79</strong><span>Runtime 探针覆盖</span></div>
+      <div><strong>∞</strong><span>持续学习与迭代</span></div>
+      <a href="experience.html">查看经历与能力 <b>→</b></a>
+    </section>
+  </main>
+
+  <nav class="mobile-nav" aria-label="手机端导航">
+    <a data-nav="home" href="index.html"><span>⌂</span>首页</a>
+    <a data-nav="works" href="works.html"><span>◇</span>作品</a>
+    <a data-nav="experience" href="experience.html"><span>⌁</span>经历</a>
+    <a data-nav="about" href="about.html"><span>○</span>关于</a>
+    <a data-nav="resume" href="resume.html"><span>↓</span>简历</a>
+  </nav>
 </body>
 </html>
