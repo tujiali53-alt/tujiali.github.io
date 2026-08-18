@@ -1,18 +1,186 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="关于 Unity 客户端开发者涂佳利。"><title>关于｜涂佳利</title><link rel="stylesheet" href="styles.css"><script src="script.js" defer></script></head>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="认识 Unity 客户端开发者涂佳利：性格、兴趣、跨专业学习经历与联系方式。">
+  <title>关于我｜涂佳利</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
 <body data-page="about">
-  <div class="page-loader" aria-hidden="true"><div class="loader-mark">ABOUT<span>.</span></div><div class="loader-line"><i></i></div></div>
-  <header class="topbar"><a class="brand" href="index.html"><span class="brand-mark">TU</span><span class="brand-copy"><b>涂佳利</b><small>UNITY CLIENT DEVELOPER</small></span></a><nav class="topnav"><a data-nav="home" href="index.html">首页</a><a data-nav="works" href="works.html">作品</a><a data-nav="experience" href="index.html#internship">经历</a><a data-nav="about" href="about.html">关于</a><a data-nav="resume" href="resume.html">简历</a></nav><div class="top-actions"><button class="theme-toggle" type="button" aria-label="切换深浅主题">◐</button><a class="mini-cta" href="mailto:2846314132@qq.com">联系我 ↗</a></div></header>
-  <aside class="side-rail"><span>04</span><i></i><span>ABOUT</span></aside>
-  <main class="inner-main">
-    <section class="page-hero"><div class="page-hero-copy"><span class="page-index">04 / ABOUT ME</span><h1>聪明地努力，<br>认真地创造。</h1><p>这一页用于回答“我是谁、我如何学习、为什么值得一起工作”。当前文案是可以继续打磨的初稿。</p></div></section>
-    <section class="section-shell about-layout">
-      <figure class="about-portrait"><img src="assets/images/肖像图.png" alt="涂佳利个人肖像插画"></figure>
-      <div class="about-copy"><p class="kicker">HELLO, I AM JIALI.</p><h2>希望成为既理解体验，也尊重工程质量的游戏开发者。</h2><p>我是涂佳利，来自山东淄博，目前面向 Unity 客户端开发校招机会。我喜欢从真实问题出发理解系统：既关注功能是否成立，也关注它在复杂生命周期、性能压力和团队协作中是否可靠。</p><p>我正在通过项目、实习和持续学习建立自己的能力边界。从 DOTS 动画实验，到战斗 Buff 系统的渐进式迁移，再到 AI 编程工作流，我希望把新技术转化成能够被验证、被维护、真正提升效率的工程实践。</p>
-        <div class="value-grid"><div class="value-card"><b>创新</b><span>愿意尝试新方法，但用结果验证价值。</span></div><div class="value-card"><b>上进</b><span>主动发现能力缺口，并持续形成作品。</span></div><div class="value-card"><b>潜力</b><span>快速学习、认真复盘，把复杂问题拆开。</span></div></div>
-        <div class="contact-card"><p>LET'S BUILD SOMETHING PLAYABLE.</p><h3>期待与你聊聊游戏、技术与机会。</h3><a href="mailto:2846314132@qq.com">2846314132@qq.com ↗</a><a href="tel:13985637162">139 8563 7162</a><a href="#" aria-disabled="true">GitHub 链接待补充</a></div>
+  <a class="skip-link" href="#about-content">跳到主要内容</a>
+  <div class="page-loader" aria-hidden="true">
+    <div class="loader-mark">ABOUT<span>.</span></div>
+    <div class="loader-line"><i></i></div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">TU</span>
+      <span class="brand-copy"><b>涂佳利</b><small>UNITY CLIENT DEVELOPER</small></span>
+    </a>
+    <nav class="topnav" aria-label="主导航">
+      <a data-nav="home" href="index.html">首页</a>
+      <a data-nav="works" href="works.html">作品</a>
+      <a data-nav="about" href="about.html">关于</a>
+      <a data-nav="resume" href="resume.html">简历</a>
+    </nav>
+    <div class="top-actions">
+      <button class="theme-toggle" type="button" aria-label="切换深浅主题">◐</button>
+      <a class="mini-cta" href="mailto:2846314132@qq.com">联系我 ↗</a>
+    </div>
+  </header>
+
+  <aside class="side-rail" aria-hidden="true"><span>04</span><i></i><span>ABOUT</span></aside>
+
+  <main class="inner-main about-main" id="about-content">
+    <section class="about-hero" aria-labelledby="about-title">
+      <div class="about-hero-orbit about-hero-orbit-a" aria-hidden="true"></div>
+      <div class="about-hero-orbit about-hero-orbit-b" aria-hidden="true"></div>
+      <div class="about-hero-copy">
+        <span class="page-index">04 / ABOUT ME</span>
+        <h1 id="about-title">从测绘出发，<br><em>向游戏走去。</em></h1>
+        <p>跨专业不是一次突然的转向，而是一连串好奇、实践与选择的结果。这里记录我如何认识 Unity，也介绍屏幕之外的我。</p>
+      </div>
+      <nav class="about-anchor-nav" aria-label="关于页面目录">
+        <a href="#intro"><span>01</span>个人介绍</a>
+        <a href="#journey"><span>02</span>个人经历</a>
+        <a href="#contact"><span>03</span>联系方式</a>
+      </nav>
+      <span class="about-scroll-note" aria-hidden="true">SCROLL TO KNOW ME <i></i></span>
+    </section>
+
+    <section class="about-section about-intro" id="intro" aria-labelledby="intro-title">
+      <div class="about-section-label"><span>01</span><p>WHO I AM<br>个人介绍</p></div>
+      <div class="about-intro-grid">
+        <figure class="about-portrait">
+          <div class="about-portrait-art">
+            <img src="assets/images/肖像图.png" alt="花朵、女孩与小狗组成的个人肖像插画">
+          </div>
+          <figcaption>
+            <span>PERSONALITY TYPE</span>
+            <strong>INTP</strong>
+            <small>安静思考，持续探索</small>
+          </figcaption>
+          <span class="about-sticker about-sticker-focus">FOCUS MODE · ON</span>
+          <span class="about-sticker about-sticker-hello">你好 :）</span>
+        </figure>
+
+        <div class="about-intro-copy">
+          <p class="kicker">HELLO, I AM JIALI.</p>
+          <h2 id="intro-title">我享受把复杂问题<br>一点点弄明白的过程。</h2>
+          <p class="about-lead">我是涂佳利，一名从测绘工程走向 Unity 客户端开发的本科生。作为 INTP，我习惯先理解问题的结构，再专注地把它做完整。</p>
+          <p>生活里的我随和、亲切，喜欢听不同的想法；进入工作状态后，我会认真对待每个承诺，主动跟进细节，也愿意为最终结果负责。</p>
+
+          <div class="about-traits" aria-label="性格特点">
+            <div><span>01</span><b>专注</b><p>愿意沉下心钻研，也能长时间保持投入。</p></div>
+            <div><span>02</span><b>随和</b><p>尊重不同观点，重视清晰、舒服的协作。</p></div>
+            <div><span>03</span><b>负责</b><p>把事情收好尾，比只完成“差不多”更重要。</p></div>
+          </div>
+
+          <div class="about-hobbies">
+            <div class="about-hobbies-title"><span>OFF THE CLOCK</span><b>离开电脑以后</b></div>
+            <ul>
+              <li><span>独立游戏</span><small>体验不循常规的表达</small></li>
+              <li><span>滑板</span><small>在一次次练习里找到平衡</small></li>
+              <li><span>徒步</span><small>用脚步重新感受空间</small></li>
+              <li><span>旅行</span><small>去陌生地方收集新视角</small></li>
+            </ul>
+          </div>
+        </div>
       </div>
     </section>
+
+    <section class="about-section about-journey" id="journey" aria-labelledby="journey-title">
+      <div class="about-section-label about-section-label-light"><span>02</span><p>MY JOURNEY<br>个人经历</p></div>
+      <div class="about-journey-grid">
+        <div class="about-journey-heading">
+          <p class="kicker">NOT A STRAIGHT LINE.</p>
+          <h2 id="journey-title">一条并不笔直，<br>却越来越确定的路。</h2>
+          <p>从测绘工程、AI 手语、虚拟仿真，到 VR、Game Jam 与游戏开发实习，每一步都让我更确定自己想把 Unity 作为长期方向。</p>
+          <a href="resume.html" class="about-text-link">查看完整简历 <span>↗</span></a>
+        </div>
+
+        <ol class="about-storyline">
+          <li>
+            <span class="about-story-index">01</span>
+            <div>
+              <p class="about-story-meta">THE BEGINNING · 测绘工程</p>
+              <h3>非计算机专业，也有扎实的编程入口。</h3>
+              <p>我的本科专业是测绘工程。课程中的计算机图形学、数据结构与算法、C# 面向对象程序设计，以及三维建模与可视化，为后来学习实时交互开发打下了基础。</p>
+            </div>
+          </li>
+          <li>
+            <span class="about-story-index">02</span>
+            <div>
+              <p class="about-story-meta">THE SPARK · AI 手语项目</p>
+              <h3>第一次接触 Unity，来自一个真实问题。</h3>
+              <p>大一下学期，我跟随导师参与 AI 手语项目：将机器学习与穿戴设备采集的手语数据，通过骨骼绑定驱动 Unity 数字人，再由数字人完成手语表达。这段经历让我系统接触 Unity，也带来了国家三等奖与软件著作权成果。</p>
+              <ul class="about-story-tags" aria-label="项目关键词"><li>机器学习</li><li>穿戴设备</li><li>骨骼绑定</li><li>数字人</li></ul>
+            </div>
+          </li>
+          <li>
+            <span class="about-story-index">03</span>
+            <div>
+              <p class="about-story-meta">GOING DEEPER · 持续学习</p>
+              <h3>兴趣与专业方向，在 Unity 这里交汇。</h3>
+              <p>游戏行业本身吸引我，而测绘专业也延伸到数字孪生、虚拟仿真等方向。两条线索在 Unity 上相遇，让我决定继续精进：从引擎基础、交互逻辑到项目工程化，逐步建立自己的能力体系。</p>
+            </div>
+          </li>
+          <li>
+            <span class="about-story-index">04</span>
+            <div>
+              <p class="about-story-meta">MORE DIMENSIONS · VR 与比赛</p>
+              <h3>当虚拟世界变得可进入，我看见了更多可能。</h3>
+              <p>一次偶然接触 VR 设备后，我开始尝试相关项目，并在多项数字化与创新设计比赛中获得奖项。比赛让我学会在有限时间里定义问题、组织协作，也把想法真正落成可体验的作品。</p>
+            </div>
+          </li>
+          <li>
+            <span class="about-story-index">05</span>
+            <div>
+              <p class="about-story-meta">THE DECISION · 游戏开发</p>
+              <h3>从“感兴趣”，走到认真选择这条路。</h3>
+              <p>后来，我报名系统性的 Unity 游戏开发课程，参加多次 21 天 Game Jam，并利用暑假进入游戏公司实习。项目、比赛与真实团队协作让我最终下定决心：把游戏客户端开发作为长期职业方向。</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="about-contact" id="contact" aria-labelledby="contact-title">
+      <div class="about-contact-copy">
+        <span class="about-contact-index">03 / KEEP IN TOUCH</span>
+        <h2 id="contact-title">如果你也在做<br>有意思的游戏，<br><em>欢迎来聊聊。</em></h2>
+        <p>校招机会、项目交流，或只是分享一款最近喜欢的独立游戏，都可以找到我。</p>
+      </div>
+      <address class="about-contact-list">
+        <a href="mailto:2846314132@qq.com">
+          <span class="about-contact-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 6.5h18v11H3z"/><path d="m4 7 8 6 8-6"/></svg></span>
+          <span><small>EMAIL</small><b>2846314132@qq.com</b></span>
+          <i>↗</i>
+        </a>
+        <a href="https://github.com/tujiali53-alt" target="_blank" rel="noreferrer">
+          <span class="about-contact-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8.5 19.5C4.5 20.7 4.5 17.5 3 17m11 4v-3.1c0-.9.1-1.4-.5-2 2.8-.3 5.7-1.4 5.7-6.2A4.8 4.8 0 0 0 18 6.4a4.5 4.5 0 0 0-.1-3.2S16.9 2.9 14 4.4a11 11 0 0 0-6 0C5.1 2.9 4.1 3.2 4.1 3.2A4.5 4.5 0 0 0 4 6.4a4.8 4.8 0 0 0-1.2 3.3c0 4.8 2.9 5.9 5.7 6.2-.6.6-.6 1.3-.5 2V21"/></svg></span>
+          <span><small>GITHUB</small><b>tujiali53-alt</b></span>
+          <i>↗</i>
+        </a>
+        <a href="https://search.bilibili.com/upuser?keyword=%E5%9B%BE%E5%9B%BE%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91" target="_blank" rel="noreferrer">
+          <span class="about-contact-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 5.5h12A3.5 3.5 0 0 1 21.5 9v8A3.5 3.5 0 0 1 18 20.5H6A3.5 3.5 0 0 1 2.5 17V9A3.5 3.5 0 0 1 6 5.5Z"/><path d="m8 2 4 3.5L16 2M8 11v4m8-4v4"/></svg></span>
+          <span><small>BILIBILI</small><b>@图图在线编译</b></span>
+          <i>↗</i>
+        </a>
+      </address>
+      <p class="about-contact-foot">JIALI TU · UNITY CLIENT DEVELOPER · 2026</p>
+    </section>
   </main>
-  <nav class="mobile-nav"><a data-nav="home" href="index.html"><span>⌂</span>首页</a><a data-nav="works" href="works.html"><span>◇</span>作品</a><a data-nav="experience" href="index.html#internship"><span>⌁</span>经历</a><a data-nav="about" href="about.html"><span>○</span>关于</a><a data-nav="resume" href="resume.html"><span>↓</span>简历</a></nav>
-</body></html>
+
+  <nav class="mobile-nav" aria-label="移动端导航">
+    <a data-nav="home" href="index.html"><span>⌂</span>首页</a>
+    <a data-nav="works" href="works.html"><span>◇</span>作品</a>
+    <a data-nav="experience" href="index.html#internship"><span>⌁</span>经历</a>
+    <a data-nav="about" href="about.html"><span>○</span>关于</a>
+    <a data-nav="resume" href="resume.html"><span>↓</span>简历</a>
+  </nav>
+</body>
+</html>

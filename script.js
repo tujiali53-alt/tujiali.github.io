@@ -39,6 +39,7 @@
   const hero = document.querySelector('.hero');
   const glow = document.querySelector('.hero-glow');
   if (hero && glow && !reducedMotion && matchMedia('(pointer:fine)').matches) {
+    const sparkleColors = ['#ffffff', '#ddd4ff', '#c8f2ff', '#ffd9ef'];
     let lastParticleAt = 0;
     hero.addEventListener('pointermove', event => {
       const rect = hero.getBoundingClientRect();
@@ -50,71 +51,186 @@
       lastParticleAt = event.timeStamp;
       const particle = document.createElement('i');
       particle.className = 'mouse-particle';
+      if (Math.random() < .22) particle.classList.add('is-star');
       particle.style.left = `${x + (Math.random() - .5) * 12}px`;
       particle.style.top = `${y + (Math.random() - .5) * 12}px`;
       particle.style.setProperty('--size', `${Math.random() * 3.5 + 2}px`);
       particle.style.setProperty('--dx', `${(Math.random() - .5) * 28}px`);
-      particle.style.setProperty('--dy', `${Math.random() * 20 + 8}px`);
+      particle.style.setProperty('--dy', `${-(Math.random() * 24 + 8)}px`);
+      particle.style.setProperty('--particle-color', sparkleColors[Math.floor(Math.random() * sparkleColors.length)]);
       hero.appendChild(particle);
       particle.addEventListener('animationend', () => particle.remove(), { once: true });
     });
   }
 
-  const canvas = document.querySelector('.particle-canvas');
-  if (canvas && !reducedMotion) {
-    const context = canvas.getContext('2d');
-    let particles = [];
-    let width = 0;
-    let height = 0;
-    const reset = () => {
-      const scale = Math.min(devicePixelRatio, 2);
-      width = canvas.clientWidth;
-      height = canvas.clientHeight;
-      canvas.width = width * scale;
-      canvas.height = height * scale;
-      context.setTransform(scale, 0, 0, scale, 0, 0);
-      const count = width < 700 ? 26 : 54;
-      particles = Array.from({ length: count }, () => ({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        r: Math.random() * 2 + .7,
-        vx: (Math.random() - .5) * .18,
-        vy: (Math.random() - .5) * .18,
-        a: Math.random() * .45 + .12
-      }));
+  const worksTitle = document.querySelector('#works-hero-title');
+  if (worksTitle && !reducedMotion && matchMedia('(pointer:fine)').matches) {
+    const letters = [...worksTitle.querySelectorAll('span')];
+    const resetWorksTitle = () => {
+      worksTitle.style.setProperty('--title-rotate-x', '0deg');
+      worksTitle.style.setProperty('--title-rotate-y', '0deg');
+      worksTitle.style.setProperty('--title-scale', '1');
+      letters.forEach(letter => {
+        letter.style.setProperty('--letter-scale', '1');
+        letter.style.setProperty('--letter-lift', '0px');
+      });
     };
-    const draw = () => {
-      context.clearRect(0, 0, width, height);
-      const dark = root.dataset.theme === 'dark';
-      particles.forEach((particle, index) => {
-        particle.x += particle.vx;
-        particle.y += particle.vy;
-        if (particle.x < 0 || particle.x > width) particle.vx *= -1;
-        if (particle.y < 0 || particle.y > height) particle.vy *= -1;
-        context.beginPath();
-        context.shadowColor = 'rgba(255,255,255,.75)';
-        context.shadowBlur = 7;
-        context.fillStyle = `rgba(255,255,255,${dark ? particle.a * 1.25 : particle.a * .92})`;
-        context.arc(particle.x, particle.y, particle.r, 0, Math.PI * 2);
-        context.fill();
-        for (let j = index + 1; j < particles.length; j++) {
-          const other = particles[j];
-          const distance = Math.hypot(particle.x - other.x, particle.y - other.y);
-          if (distance < 105) {
-            context.beginPath();
-            context.shadowBlur = 0;
-            context.strokeStyle = `rgba(255,255,255,${(1 - distance / 105) * (dark ? .12 : .1)})`;
-            context.moveTo(particle.x, particle.y);
-            context.lineTo(other.x, other.y);
-            context.stroke();
+
+    worksTitle.addEventListener('pointermove', event => {
+      const titleRect = worksTitle.getBoundingClientRect();
+      const relativeX = (event.clientX - titleRect.left) / titleRect.width - .5;
+      const relativeY = (event.clientY - titleRect.top) / titleRect.height - .5;
+      worksTitle.style.setProperty('--title-rotate-x', `${(-relativeY * 6).toFixed(2)}deg`);
+      worksTitle.style.setProperty('--title-rotate-y', `${(relativeX * 8).toFixed(2)}deg`);
+      worksTitle.style.setProperty('--title-scale', '1.025');
+
+      const influenceRange = Math.max(titleRect.width * .26, 90);
+      letters.forEach(letter => {
+        const letterRect = letter.getBoundingClientRect();
+        const letterCenter = letterRect.left + letterRect.width / 2;
+        const influence = Math.max(0, 1 - Math.abs(event.clientX - letterCenter) / influenceRange);
+        letter.style.setProperty('--letter-scale', (1 + influence * .2).toFixed(3));
+        letter.style.setProperty('--letter-lift', `${(-influence * 8).toFixed(1)}px`);
+      });
+    });
+    worksTitle.addEventListener('pointerleave', resetWorksTitle);
+  }
+
+  const worksSubtitle = document.querySelector('.works-hero-subtitle');
+  if (worksSubtitle && !reducedMotion && matchMedia('(pointer:fine)').matches) {
+    const subtitleLetters = [...worksSubtitle.querySelectorAll('.subtitle-letter')];
+    const resetWorksSubtitle = () => {
+      worksSubtitle.style.setProperty('--subtitle-rotate-x', '0deg');
+      worksSubtitle.style.setProperty('--subtitle-rotate-y', '0deg');
+      worksSubtitle.style.setProperty('--subtitle-scale', '1');
+      subtitleLetters.forEach(letter => {
+        letter.style.setProperty('--subtitle-letter-scale', '1');
+        letter.style.setProperty('--subtitle-letter-lift', '0px');
+      });
+    };
+
+    worksSubtitle.addEventListener('pointermove', event => {
+      const subtitleRect = worksSubtitle.getBoundingClientRect();
+      const relativeX = (event.clientX - subtitleRect.left) / subtitleRect.width - .5;
+      const relativeY = (event.clientY - subtitleRect.top) / subtitleRect.height - .5;
+      worksSubtitle.style.setProperty('--subtitle-rotate-x', `${(-relativeY * 6).toFixed(2)}deg`);
+      worksSubtitle.style.setProperty('--subtitle-rotate-y', `${(relativeX * 8).toFixed(2)}deg`);
+      worksSubtitle.style.setProperty('--subtitle-scale', '1.02');
+
+      const influenceRange = Math.max(subtitleRect.width * .13, 70);
+      subtitleLetters.forEach(letter => {
+        const letterRect = letter.getBoundingClientRect();
+        const letterCenter = letterRect.left + letterRect.width / 2;
+        const influence = Math.max(0, 1 - Math.abs(event.clientX - letterCenter) / influenceRange);
+        letter.style.setProperty('--subtitle-letter-scale', (1 + influence * .2).toFixed(3));
+        letter.style.setProperty('--subtitle-letter-lift', `${(-influence * 8).toFixed(1)}px`);
+      });
+    });
+    worksSubtitle.addEventListener('pointerleave', resetWorksSubtitle);
+    window.addEventListener('pointermove', event => {
+      if (!worksSubtitle.contains(event.target)) resetWorksSubtitle();
+    }, { passive: true });
+  }
+
+  const worksHero = document.querySelector('.works-hero');
+  if (worksHero && !reducedMotion && matchMedia('(pointer:fine)').matches) {
+    const trailBubbles = new Set();
+    let lastBubbleAt = 0;
+
+    worksHero.addEventListener('pointermove', event => {
+      if (event.timeStamp - lastBubbleAt < 22) return;
+      lastBubbleAt = event.timeStamp;
+      const heroRect = worksHero.getBoundingClientRect();
+      const originX = event.clientX - heroRect.left;
+      const originY = event.clientY - heroRect.top;
+      const bubbleCount = Math.random() < .32 ? 4 : 3;
+
+      for (let index = 0; index < bubbleCount; index++) {
+        if (trailBubbles.size >= 72) {
+          const oldestBubble = trailBubbles.values().next().value;
+          oldestBubble?.remove();
+          trailBubbles.delete(oldestBubble);
+        }
+
+        const bubble = document.createElement('i');
+        const size = Math.random() * 6.5 + 3.5;
+        const drift = (Math.random() - .5) * 42;
+        const rise = Math.random() * 46 + 42;
+        bubble.className = 'works-pointer-bubble';
+        bubble.setAttribute('aria-hidden', 'true');
+        bubble.style.left = `${originX + (Math.random() - .5) * 18}px`;
+        bubble.style.top = `${originY + (Math.random() - .5) * 14}px`;
+        bubble.style.setProperty('--trail-size', `${size.toFixed(1)}px`);
+        bubble.style.setProperty('--trail-drift-mid', `${(drift * .68).toFixed(1)}px`);
+        bubble.style.setProperty('--trail-rise-mid', `${(-rise * .7).toFixed(1)}px`);
+        bubble.style.setProperty('--trail-drift', `${drift.toFixed(1)}px`);
+        bubble.style.setProperty('--trail-rise', `${(-rise).toFixed(1)}px`);
+        bubble.style.setProperty('--trail-duration', `${(Math.random() * .7 + 1.05).toFixed(2)}s`);
+        bubble.style.setProperty('--trail-opacity', (Math.random() * .24 + .64).toFixed(2));
+        bubble.style.setProperty('--trail-hue', `${Math.round((Math.random() - .5) * 42)}deg`);
+        worksHero.appendChild(bubble);
+        trailBubbles.add(bubble);
+        bubble.addEventListener('animationend', () => {
+          trailBubbles.delete(bubble);
+          bubble.remove();
+        }, { once: true });
+      }
+    });
+  }
+
+  const homeParticles = document.querySelector('#home-particles');
+  if (homeParticles && !reducedMotion && window.tsParticles && window.loadSlim) {
+    const compactParticles = window.innerWidth < 720;
+    const finePointer = matchMedia('(pointer:fine)').matches;
+    window.loadSlim(window.tsParticles)
+      .then(() => window.tsParticles.load({
+        id: 'home-particles',
+        options: {
+          fullScreen: { enable: false },
+          background: { color: { value: 'transparent' } },
+          detectRetina: true,
+          fpsLimit: compactParticles ? 40 : 60,
+          pauseOnBlur: true,
+          pauseOnOutsideViewport: true,
+          particles: {
+            color: { value: ['#ffffff', '#ddd4ff', '#c8f2ff', '#ffd9ef'] },
+            links: { enable: false },
+            move: {
+              enable: true,
+              direction: 'none',
+              random: true,
+              speed: { min: .12, max: compactParticles ? .34 : .48 },
+              straight: false,
+              outModes: { default: 'out' }
+            },
+            number: { value: compactParticles ? 34 : 68 },
+            opacity: {
+              value: { min: .18, max: .72 },
+              animation: { enable: true, speed: .65, sync: false }
+            },
+            shape: { type: 'circle' },
+            size: {
+              value: { min: 1, max: compactParticles ? 3.2 : 4.4 },
+              animation: { enable: true, speed: 1.1, sync: false }
+            }
+          },
+          interactivity: {
+            detectsOn: 'window',
+            events: {
+              onClick: { enable: false },
+              onHover: { enable: finePointer, mode: ['grab', 'bubble', 'repulse'] },
+              resize: true
+            },
+            modes: {
+              bubble: { distance: 130, duration: 1.4, opacity: .88, size: 7.6 },
+              grab: { distance: 165, links: { color: '#e9f5ff', opacity: .28 } },
+              repulse: { distance: 68, duration: .35 }
+            }
           }
         }
-      });
-      requestAnimationFrame(draw);
-    };
-    reset();
-    draw();
-    window.addEventListener('resize', reset);
+      }))
+      .then(() => homeParticles.classList.add('is-ready'))
+      .catch(() => homeParticles.classList.add('is-unavailable'));
   }
 
   const lightbox = document.querySelector('.lightbox');
