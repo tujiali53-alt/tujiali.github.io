@@ -1,55 +1,319 @@
 <!DOCTYPE html>
 <html lang="zh-CN" data-theme="light">
 <head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="涂佳利的 Unity 客户端开发项目与媒体作品。">
-  <title>作品｜涂佳利</title><link rel="stylesheet" href="styles.css"><script src="script.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="涂佳利的 Unity 客户端开发项目、Gamejam 作品、学校项目与实验室经历。">
+  <title>作品｜涂佳利</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
 </head>
 <body data-page="works">
-  <div class="page-loader" aria-hidden="true"><div class="loader-mark">WORKS<span>.</span></div><div class="loader-line"><i></i></div></div>
+  <div class="page-loader" aria-hidden="true">
+    <div class="loader-mark">WORKS<span>.</span></div>
+    <div class="loader-line"><i></i></div>
+  </div>
+
   <header class="topbar">
-    <a class="brand" href="index.html"><span class="brand-mark">TU</span><span class="brand-copy"><b>涂佳利</b><small>UNITY CLIENT DEVELOPER</small></span></a>
-    <nav class="topnav" aria-label="主导航"><a data-nav="home" href="index.html">首页</a><a data-nav="works" href="works.html">作品</a><a data-nav="experience" href="index.html#internship">经历</a><a data-nav="about" href="about.html">关于</a><a data-nav="resume" href="resume.html">简历</a></nav>
-    <div class="top-actions"><button class="theme-toggle" type="button" aria-label="切换深浅主题"><span>◐</span></button><a class="mini-cta" href="mailto:2846314132@qq.com">联系我 ↗</a></div>
+    <a class="brand" href="index.html">
+      <span class="brand-mark">TU</span>
+      <span class="brand-copy"><b>涂佳利</b><small>UNITY CLIENT DEVELOPER</small></span>
+    </a>
+    <nav class="topnav" aria-label="主导航">
+      <a data-nav="home" href="index.html">首页</a>
+      <a data-nav="works" href="works.html">作品</a>
+      <a data-nav="experience" href="index.html#internship">经历</a>
+      <a data-nav="about" href="about.html">关于</a>
+      <a data-nav="resume" href="resume.html">简历</a>
+    </nav>
+    <div class="top-actions">
+      <button class="theme-toggle" type="button" aria-label="切换深浅主题"><span>◐</span></button>
+      <a class="mini-cta" href="mailto:2846314132@qq.com">联系我 ↗</a>
+    </div>
   </header>
-  <aside class="side-rail"><span>02</span><i></i><span>WORKS</span></aside>
-  <main class="inner-main">
-    <section class="page-hero"><div class="page-hero-copy"><span class="page-index">02 / SELECTED WORK</span><h1>作品不是结果，<br>是思考的轨迹。</h1><p>聚焦 Unity 客户端开发、玩法系统和性能实践。每个项目都会说明目标、职责、技术难点与验证结果。</p></div></section>
-    <section class="section-shell">
-      <div class="project-grid">
-        <a class="project-card large" href="project-dots.html">
-          <div class="project-card-media"><img src="assets/images/projects/dots/cover.svg" alt="DOTS 骨骼动画测试 Demo 封面"></div>
-          <div class="project-card-body"><small>01 · FEATURED / 2026</small><h2>DOTS 骨骼动画测试 Demo</h2><p>高性能 GPU 骨骼动画、ECS 多线程更新与批量渲染实验。</p><div class="tag-row"><span>Unity</span><span>ECS</span><span>Shader</span></div></div>
-        </a>
-        <article class="project-card small placeholder">
-          <div class="project-card-media"><img src="assets/images/projects/placeholder/project-02.svg" alt="项目二占位封面"></div>
-          <div class="project-card-body"><small>02 · COMING SOON</small><h2>精品项目二</h2><p>预留给玩法系统、框架或完整游戏项目。</p></div>
-        </article>
-        <article class="project-card placeholder">
-          <div class="project-card-media"><img src="assets/images/projects/placeholder/project-03.svg" alt="项目三占位封面"></div>
-          <div class="project-card-body"><small>03 · COMING SOON</small><h2>精品项目三</h2><p>预留给能够体现业务能力和个人成长的项目。</p></div>
-        </article>
-        <article class="project-card placeholder">
-          <div class="project-card-media"><img src="assets/images/projects/placeholder/project-lab.svg" alt="技术实验占位封面"></div>
-          <div class="project-card-body"><small>LAB · EXPERIMENTS</small><h2>开发实验室</h2><p>以后可以收录工具、Shader、AI 应用和小型技术 Demo。</p></div>
-        </article>
-      </div>
 
-      <div class="gallery-title"><div><p class="kicker">MEDIA GALLERY</p><h2>图片画廊</h2></div><p>横向滑动 · 点击全屏查看</p></div>
-      <div class="gallery-track" aria-label="项目图片画廊">
-        <button class="gallery-item" type="button"><img loading="lazy" src="assets/images/gallery/game-shot-01.svg" alt="游戏截图占位图一"><span>GAME SHOT / 01</span></button>
-        <button class="gallery-item" type="button"><img loading="lazy" src="assets/images/gallery/game-shot-02.svg" alt="游戏截图占位图二"><span>GAME SHOT / 02</span></button>
-        <button class="gallery-item" type="button"><img loading="lazy" src="assets/images/gallery/work-photo.svg" alt="工作照片占位图"><span>WORK PHOTO</span></button>
-      </div>
-
-      <div class="gallery-title"><div><p class="kicker">VIDEO SHOWCASE</p><h2>演示视频</h2></div><p>本地 MP4 / Bilibili 链接均可替换</p></div>
-      <div class="video-panel">
-        <img src="assets/images/projects/dots/video-poster.svg" alt="DOTS Demo 视频封面占位图">
-        <button class="video-play" type="button" data-video-open><i>▶</i><b>播放 DOTS Demo 演示</b><small>00:00 · Unity / ECS</small></button>
+  <main class="works-page">
+    <section class="works-hero" aria-labelledby="works-hero-title">
+      <div class="works-hero-copy">
+        <span class="page-index">02 / WORKS &amp; PRACTICE</span>
+        <h1 id="works-hero-title">把想法做出来，<br>再把细节做好。</h1>
+        <p>我相信可靠的作品来自持续验证：先让功能成立，再让结构清晰、性能可控、体验经得起推敲。</p>
+        <small>UNITY CLIENT DEVELOPMENT · ENGINEERING PRACTICE</small>
       </div>
     </section>
+
+    <div class="works-color-bridge" aria-hidden="true"></div>
+
+    <div class="works-board">
+      <div class="works-layout">
+        <nav class="page-toc works-toc" aria-label="作品目录">
+          <p class="page-toc-title">作品目录</p>
+          <a href="#featured-work"><small>01</small><span>精选作品</span></a>
+          <a href="#gamejam-work"><small>02</small><span>Gamejam 作品</span></a>
+          <a href="#school-work"><small>03</small><span>学校项目作品</span></a>
+          <a href="#lab-work"><small>04</small><span>实验室经历</span></a>
+        </nav>
+
+        <div class="works-main">
+          <section class="works-category" id="featured-work" data-toc>
+            <header class="works-category-head">
+              <p>01 / FEATURED WORK</p>
+              <h2>精选作品</h2>
+            </header>
+
+            <article class="works-project">
+              <header class="works-project-head">
+                <span>UNITY · DOTS / ECS · SHADER</span>
+                <h3>DOTS 骨骼动画测试 Demo</h3>
+              </header>
+
+              <div class="works-project-intro">
+                <div class="works-project-copy">
+                  <p>基于 Unity DOTS / ECS 实现高性能 GPU 骨骼动画测试。动画数据烘焙至二维纹理并由 Shader 采样，结合 GPU Instancing 完成大规模动画实体的批量渲染。</p>
+                  <p>我独立完成动画烘焙 Editor 工具、ECS 动画更新系统、渲染 Shader，以及材质属性传递和多线程更新流程优化。</p>
+                  <div class="tag-row"><span>Unity</span><span>C#</span><span>ECS</span><span>Shader</span></div>
+                  <div class="works-resource-list" aria-label="项目链接预留位置">
+                    <span><b>演示视频</b><em>链接待补充</em></span>
+                    <span><b>GitHub</b><em>地址待补充</em></span>
+                  </div>
+                </div>
+                <div class="works-project-video" aria-label="DOTS 骨骼动画测试 Demo 演示视频预留位置">
+                  <img src="assets/images/projects/dots/video-poster.svg" alt="DOTS 骨骼动画测试 Demo 视频封面">
+                  <div><i>▶</i><b>演示视频待上传</b><small>VIDEO PLACEHOLDER / 16:9</small></div>
+                </div>
+              </div>
+
+              <div class="works-gallery-head">
+                <div><span>PROJECT GALLERY</span><h4>图片画廊</h4></div>
+                <p>选择缩略图，或使用左右按钮切换</p>
+              </div>
+              <div class="portfolio-gallery" data-gallery aria-label="DOTS 项目图片画廊">
+                <div class="portfolio-gallery-stage">
+                  <button class="portfolio-gallery-arrow is-prev" type="button" data-gallery-prev aria-label="上一张图片">←</button>
+                  <div class="portfolio-gallery-slides">
+                    <button class="portfolio-gallery-slide" type="button" data-gallery-slide>
+                      <img src="assets/images/projects/dots/detail-01.svg" alt="DOTS 项目动画烘焙工具界面">
+                      <span>动画烘焙工具</span>
+                    </button>
+                    <button class="portfolio-gallery-slide" type="button" data-gallery-slide>
+                      <img src="assets/images/projects/dots/detail-02.svg" alt="DOTS 项目 ECS 系统结构">
+                      <span>ECS 系统结构</span>
+                    </button>
+                    <button class="portfolio-gallery-slide" type="button" data-gallery-slide>
+                      <img src="assets/images/projects/dots/detail-03.svg" alt="DOTS 项目性能测试画面">
+                      <span>性能测试画面</span>
+                    </button>
+                  </div>
+                  <button class="portfolio-gallery-arrow is-next" type="button" data-gallery-next aria-label="下一张图片">→</button>
+                </div>
+                <div class="portfolio-gallery-footer">
+                  <p class="portfolio-gallery-counter" aria-live="polite"><b data-gallery-current>01</b><span>/</span><em data-gallery-total>03</em></p>
+                  <div class="portfolio-gallery-thumbs" aria-label="选择图片">
+                    <button type="button" data-gallery-thumb aria-label="查看动画烘焙工具"><img src="assets/images/projects/dots/detail-01.svg" alt=""></button>
+                    <button type="button" data-gallery-thumb aria-label="查看 ECS 系统结构"><img src="assets/images/projects/dots/detail-02.svg" alt=""></button>
+                    <button type="button" data-gallery-thumb aria-label="查看性能测试画面"><img src="assets/images/projects/dots/detail-03.svg" alt=""></button>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <section class="works-category" id="gamejam-work" data-toc>
+            <header class="works-category-head">
+              <p>02 / GAMEJAM WORK</p>
+              <h2>Gamejam 作品</h2>
+            </header>
+
+            <article class="works-project">
+              <header class="works-project-head">
+                <span>21 DAYS · TEAM PROJECT · RAPID PROTOTYPING</span>
+                <h3>21 天 Gamejam 作品集</h3>
+              </header>
+
+              <div class="works-project-intro">
+                <div class="works-project-copy">
+                  <p>在限定时间内从主题拆解、玩法验证到完整交付，关注核心循环是否成立、团队协作是否顺畅，以及版本能否按期稳定落地。</p>
+                  <p>这里用于展示代表性 Gamejam 项目的玩法说明、个人职责、技术难点与复盘结论；项目名称和最终数据可在素材整理后继续补充。</p>
+                  <div class="tag-row"><span>Unity</span><span>Gamejam</span><span>玩法原型</span><span>团队协作</span></div>
+                  <div class="works-resource-list" aria-label="Gamejam 项目链接预留位置">
+                    <span><b>演示视频</b><em>链接待补充</em></span>
+                    <span><b>GitHub</b><em>地址待补充</em></span>
+                    <span><b>在线试玩</b><em>地址待补充</em></span>
+                  </div>
+                </div>
+                <div class="works-project-video" aria-label="Gamejam 作品演示视频预留位置">
+                  <img src="assets/images/gallery/game-shot-01.svg" alt="Gamejam 作品视频封面占位图">
+                  <div><i>▶</i><b>演示视频待上传</b><small>GAMEPLAY VIDEO / 16:9</small></div>
+                </div>
+              </div>
+
+              <div class="works-gallery-head">
+                <div><span>GAMEJAM GALLERY</span><h4>图片画廊</h4></div>
+                <p>记录玩法、场景与开发过程</p>
+              </div>
+              <div class="portfolio-gallery" data-gallery aria-label="Gamejam 作品图片画廊">
+                <div class="portfolio-gallery-stage">
+                  <button class="portfolio-gallery-arrow is-prev" type="button" data-gallery-prev aria-label="上一张图片">←</button>
+                  <div class="portfolio-gallery-slides">
+                    <button class="portfolio-gallery-slide" type="button" data-gallery-slide>
+                      <img src="assets/images/gallery/game-shot-01.svg" alt="Gamejam 游戏画面一">
+                      <span>核心玩法画面</span>
+                    </button>
+                    <button class="portfolio-gallery-slide" type="button" data-gallery-slide>
+                      <img src="assets/images/gallery/game-shot-02.svg" alt="Gamejam 游戏画面二">
+                      <span>关卡与交互</span>
+                    </button>
+                    <button class="portfolio-gallery-slide" type="button" data-gallery-slide>
+                      <img src="assets/images/gallery/work-photo.svg" alt="Gamejam 开发过程记录">
+                      <span>开发过程记录</span>
+                    </button>
+                  </div>
+                  <button class="portfolio-gallery-arrow is-next" type="button" data-gallery-next aria-label="下一张图片">→</button>
+                </div>
+                <div class="portfolio-gallery-footer">
+                  <p class="portfolio-gallery-counter" aria-live="polite"><b data-gallery-current>01</b><span>/</span><em data-gallery-total>03</em></p>
+                  <div class="portfolio-gallery-thumbs" aria-label="选择图片">
+                    <button type="button" data-gallery-thumb aria-label="查看核心玩法画面"><img src="assets/images/gallery/game-shot-01.svg" alt=""></button>
+                    <button type="button" data-gallery-thumb aria-label="查看关卡与交互"><img src="assets/images/gallery/game-shot-02.svg" alt=""></button>
+                    <button type="button" data-gallery-thumb aria-label="查看开发过程记录"><img src="assets/images/gallery/work-photo.svg" alt=""></button>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <section class="works-category" id="school-work" data-toc>
+            <header class="works-category-head">
+              <p>03 / SCHOOL PROJECT</p>
+              <h2>学校项目作品</h2>
+            </header>
+
+            <article class="works-project">
+              <header class="works-project-head">
+                <span>UNITY · NETWORK · PROTOBUF</span>
+                <h3>帧同步 MOBA Demo</h3>
+              </header>
+
+              <div class="works-project-intro">
+                <div class="works-project-copy">
+                  <p>基于帧同步方案完成多人对战 Demo，包含登录匹配、自定义物理碰撞、普攻与技能、录像回放、断线重连及网络延迟优化等模块。</p>
+                  <p>我独立完成客户端与服务器核心逻辑，使用 TCP / UDP 与 Protobuf 搭建通信框架，并实现战斗系统与状态同步流程。</p>
+                  <div class="tag-row"><span>Unity</span><span>C#</span><span>帧同步</span><span>Protobuf</span></div>
+                  <div class="works-resource-list" aria-label="学校项目链接预留位置">
+                    <span><b>演示视频</b><em>链接待补充</em></span>
+                  </div>
+                </div>
+                <div class="works-project-video" aria-label="帧同步 MOBA Demo 演示视频预留位置">
+                  <img src="assets/images/projects/placeholder/project-02.svg" alt="帧同步 MOBA Demo 视频封面占位图">
+                  <div><i>▶</i><b>演示视频待上传</b><small>NETWORK DEMO / 16:9</small></div>
+                </div>
+              </div>
+
+              <div class="works-gallery-head">
+                <div><span>SCHOOL PROJECT GALLERY</span><h4>图片画廊</h4></div>
+                <p>预留系统界面、战斗画面与调试记录</p>
+              </div>
+              <div class="portfolio-gallery" data-gallery aria-label="学校项目图片画廊">
+                <div class="portfolio-gallery-stage">
+                  <button class="portfolio-gallery-arrow is-prev" type="button" data-gallery-prev aria-label="上一张图片">←</button>
+                  <div class="portfolio-gallery-slides">
+                    <button class="portfolio-gallery-slide" type="button" data-gallery-slide>
+                      <img src="assets/images/projects/placeholder/project-02.svg" alt="帧同步项目系统界面占位图">
+                      <span>系统界面</span>
+                    </button>
+                    <button class="portfolio-gallery-slide" type="button" data-gallery-slide>
+                      <img src="assets/images/projects/placeholder/project-03.svg" alt="帧同步项目战斗画面占位图">
+                      <span>战斗画面</span>
+                    </button>
+                    <button class="portfolio-gallery-slide" type="button" data-gallery-slide>
+                      <img src="assets/images/gallery/game-shot-02.svg" alt="帧同步项目调试记录占位图">
+                      <span>调试记录</span>
+                    </button>
+                  </div>
+                  <button class="portfolio-gallery-arrow is-next" type="button" data-gallery-next aria-label="下一张图片">→</button>
+                </div>
+                <div class="portfolio-gallery-footer">
+                  <p class="portfolio-gallery-counter" aria-live="polite"><b data-gallery-current>01</b><span>/</span><em data-gallery-total>03</em></p>
+                  <div class="portfolio-gallery-thumbs" aria-label="选择图片">
+                    <button type="button" data-gallery-thumb aria-label="查看系统界面"><img src="assets/images/projects/placeholder/project-02.svg" alt=""></button>
+                    <button type="button" data-gallery-thumb aria-label="查看战斗画面"><img src="assets/images/projects/placeholder/project-03.svg" alt=""></button>
+                    <button type="button" data-gallery-thumb aria-label="查看调试记录"><img src="assets/images/gallery/game-shot-02.svg" alt=""></button>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <section class="works-category" id="lab-work" data-toc>
+            <header class="works-category-head">
+              <p>04 / LAB EXPERIENCE</p>
+              <h2>实验室经历</h2>
+            </header>
+
+            <article class="works-project">
+              <header class="works-project-head">
+                <span>RESEARCH · 3D DATA · VISUALIZATION</span>
+                <h3>三维手语建模研究</h3>
+              </header>
+
+              <div class="works-project-intro is-text-only">
+                <div class="works-project-copy">
+                  <p>围绕三维手语建模、手部点云压缩与骨架线提取开展研究，参与数据处理、技术验证和成果整理，并形成学术论文与软件著作权相关成果。</p>
+                  <p>这段经历让我更重视实验过程的可复现性：明确问题、记录变量、验证结果，再把有效的方法沉淀为可以继续复用的流程。</p>
+                  <div class="tag-row"><span>三维数据</span><span>点云处理</span><span>骨架提取</span><span>技术研究</span></div>
+                </div>
+              </div>
+
+              <div class="works-gallery-head">
+                <div><span>RESEARCH GALLERY</span><h4>图片画廊</h4></div>
+                <p>预留研究过程、模型与成果截图</p>
+              </div>
+              <div class="portfolio-gallery" data-gallery aria-label="实验室经历图片画廊">
+                <div class="portfolio-gallery-stage">
+                  <button class="portfolio-gallery-arrow is-prev" type="button" data-gallery-prev aria-label="上一张图片">←</button>
+                  <div class="portfolio-gallery-slides">
+                    <button class="portfolio-gallery-slide" type="button" data-gallery-slide>
+                      <img src="assets/images/projects/placeholder/project-lab.svg" alt="实验室研究过程占位图">
+                      <span>研究过程</span>
+                    </button>
+                    <button class="portfolio-gallery-slide" type="button" data-gallery-slide>
+                      <img src="assets/images/gallery/work-photo.svg" alt="实验室模型展示占位图">
+                      <span>模型展示</span>
+                    </button>
+                    <button class="portfolio-gallery-slide" type="button" data-gallery-slide>
+                      <img src="assets/images/hero/background-placeholder.svg" alt="实验室成果记录占位图">
+                      <span>成果记录</span>
+                    </button>
+                  </div>
+                  <button class="portfolio-gallery-arrow is-next" type="button" data-gallery-next aria-label="下一张图片">→</button>
+                </div>
+                <div class="portfolio-gallery-footer">
+                  <p class="portfolio-gallery-counter" aria-live="polite"><b data-gallery-current>01</b><span>/</span><em data-gallery-total>03</em></p>
+                  <div class="portfolio-gallery-thumbs" aria-label="选择图片">
+                    <button type="button" data-gallery-thumb aria-label="查看研究过程"><img src="assets/images/projects/placeholder/project-lab.svg" alt=""></button>
+                    <button type="button" data-gallery-thumb aria-label="查看模型展示"><img src="assets/images/gallery/work-photo.svg" alt=""></button>
+                    <button type="button" data-gallery-thumb aria-label="查看成果记录"><img src="assets/images/hero/background-placeholder.svg" alt=""></button>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </section>
+        </div>
+      </div>
+    </div>
   </main>
-  <div class="lightbox" role="dialog" aria-modal="true" aria-label="图片放大预览"><button class="modal-close" type="button" aria-label="关闭">×</button><img src="assets/images/gallery/game-shot-01.svg" alt=""></div>
-  <div class="video-modal" role="dialog" aria-modal="true" aria-label="视频播放弹窗"><button class="modal-close" type="button" aria-label="关闭">×</button><div class="video-stage"><img src="assets/images/projects/dots/video-poster.svg" alt="视频待上传占位图"><p>视频文件待上传。把 MP4 放入 <code>assets/videos/dots-demo.mp4</code> 后即可替换为播放器，也可以填入 Bilibili 嵌入链接。</p></div></div>
-  <nav class="mobile-nav" aria-label="手机端导航"><a data-nav="home" href="index.html"><span>⌂</span>首页</a><a data-nav="works" href="works.html"><span>◇</span>作品</a><a data-nav="experience" href="index.html#internship"><span>⌁</span>经历</a><a data-nav="about" href="about.html"><span>○</span>关于</a><a data-nav="resume" href="resume.html"><span>↓</span>简历</a></nav>
-</body></html>
+
+  <div class="lightbox" role="dialog" aria-modal="true" aria-label="图片放大预览">
+    <button class="modal-close" type="button" aria-label="关闭">×</button>
+    <img src="assets/images/projects/dots/detail-01.svg" alt="">
+  </div>
+
+  <nav class="mobile-nav" aria-label="手机端导航">
+    <a data-nav="home" href="index.html"><span>⌂</span>首页</a>
+    <a data-nav="works" href="works.html"><span>◇</span>作品</a>
+    <a data-nav="experience" href="index.html#internship"><span>⌁</span>经历</a>
+    <a data-nav="about" href="about.html"><span>○</span>关于</a>
+    <a data-nav="resume" href="resume.html"><span>↓</span>简历</a>
+  </nav>
+</body>
+</html>

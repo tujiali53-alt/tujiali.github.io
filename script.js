@@ -119,15 +119,75 @@
 
   const lightbox = document.querySelector('.lightbox');
   const lightboxImage = lightbox?.querySelector('img');
+  const openLightbox = source => {
+    if (!lightbox || !lightboxImage || !source) return;
+    lightboxImage.src = source.src;
+    lightboxImage.alt = source.alt;
+    lightbox.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  };
   document.querySelectorAll('.gallery-item').forEach(item => {
     item.addEventListener('click', () => {
-      if (!lightbox || !lightboxImage) return;
       const source = item.querySelector('img');
-      lightboxImage.src = source.src;
-      lightboxImage.alt = source.alt;
-      lightbox.classList.add('is-open');
-      document.body.style.overflow = 'hidden';
+      openLightbox(source);
     });
+  });
+
+  document.querySelectorAll('[data-gallery]').forEach(gallery => {
+    const slides = [...gallery.querySelectorAll('[data-gallery-slide]')];
+    const thumbs = [...gallery.querySelectorAll('[data-gallery-thumb]')];
+    const previous = gallery.querySelector('[data-gallery-prev]');
+    const next = gallery.querySelector('[data-gallery-next]');
+    const currentLabel = gallery.querySelector('[data-gallery-current]');
+    const totalLabel = gallery.querySelector('[data-gallery-total]');
+    if (!slides.length) return;
+
+    let activeIndex = 0;
+    const normalize = index => (index + slides.length) % slides.length;
+    const showSlide = (nextIndex, direction = 1) => {
+      activeIndex = normalize(nextIndex);
+      const previousIndex = normalize(activeIndex - 1);
+      const nextVisibleIndex = normalize(activeIndex + 1);
+      gallery.dataset.direction = direction < 0 ? 'previous' : 'next';
+
+      slides.forEach((slide, index) => {
+        const isCurrent = index === activeIndex;
+        slide.classList.toggle('is-current', isCurrent);
+        slide.classList.toggle('is-prev', index === previousIndex);
+        slide.classList.toggle('is-next', index === nextVisibleIndex);
+        slide.setAttribute('aria-hidden', isCurrent ? 'false' : 'true');
+        slide.tabIndex = isCurrent ? 0 : -1;
+      });
+
+      thumbs.forEach((thumb, index) => {
+        const isActive = index === activeIndex;
+        thumb.classList.toggle('is-active', isActive);
+        thumb.setAttribute('aria-pressed', String(isActive));
+      });
+
+      if (currentLabel) currentLabel.textContent = String(activeIndex + 1).padStart(2, '0');
+      if (totalLabel) totalLabel.textContent = String(slides.length).padStart(2, '0');
+    };
+
+    previous?.addEventListener('click', () => showSlide(activeIndex - 1, -1));
+    next?.addEventListener('click', () => showSlide(activeIndex + 1, 1));
+    thumbs.forEach((thumb, index) => thumb.addEventListener('click', () => {
+      const direction = index < activeIndex ? -1 : 1;
+      showSlide(index, direction);
+    }));
+    slides.forEach(slide => slide.addEventListener('click', () => openLightbox(slide.querySelector('img'))));
+    gallery.addEventListener('keydown', event => {
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        showSlide(activeIndex - 1, -1);
+      }
+      if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        showSlide(activeIndex + 1, 1);
+      }
+    });
+
+    showSlide(0);
   });
 
   const videoModal = document.querySelector('.video-modal');
