@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="涂佳利的 Unity 客户端开发作品集，展示游戏项目、工程实践与个人经历。">
-  <meta name="theme-color" content="#f5f7ff">
+  <meta name="theme-color" content="#ffffff">
   <title>涂佳利｜Unity 客户端开发</title>
   <link rel="stylesheet" href="styles.css">
   <script src="script.js" defer></script>
@@ -17,13 +17,13 @@
 
   <header class="topbar">
     <a class="brand" href="index.html" aria-label="返回首页">
-      <span class="brand-mark">TJ</span>
+      <span class="brand-mark">TU</span>
       <span class="brand-copy"><b>涂佳利</b><small>UNITY CLIENT DEVELOPER</small></span>
     </a>
     <nav class="topnav" aria-label="主导航">
       <a data-nav="home" href="index.html">首页</a>
       <a data-nav="works" href="works.html">作品</a>
-      <a data-nav="experience" href="experience.html">经历</a>
+      <a data-nav="experience" href="#internship">经历</a>
       <a data-nav="about" href="about.html">关于</a>
       <a data-nav="resume" href="resume.html">简历</a>
     </nav>
@@ -33,15 +33,11 @@
     </div>
   </header>
 
-  <aside class="side-rail" aria-label="页面章节">
-    <span>01</span><i></i><span>HOME</span>
-  </aside>
-
   <main>
     <section class="hero" id="home">
       <canvas class="particle-canvas" aria-hidden="true"></canvas>
       <div class="hero-video" aria-hidden="true">
-        <img class="hero-background-image" src="assets/images/背景.jpg" alt="">
+        <img class="hero-background-image" src="assets/images/背景图.png" alt="">
       </div>
       <div class="hero-glow" aria-hidden="true"></div>
       <div class="hero-center">
@@ -59,45 +55,184 @@
             <span>Unity / C# / ECS</span>
           </div>
           <div class="hero-actions">
-            <a class="button primary" href="works.html">查看精选作品 <b>↗</b></a>
+            <a class="button primary" href="#featured">查看精选作品 <b>↗</b></a>
             <a class="button ghost" href="resume.html">查看并下载简历</a>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="home-preview section-shell">
-      <div class="section-heading">
-        <div><p class="kicker">SELECTED WORK / 01</p><h2>从一个高性能实验，<br>看见工程潜力。</h2></div>
-        <p>初稿以 DOTS 骨骼动画 Demo 作为核心项目，其他项目保留清晰占位，后续替换不会影响布局。</p>
-      </div>
-      <a class="featured-project" href="project-dots.html">
-        <div class="featured-media">
-          <img src="assets/images/projects/dots/cover.svg" alt="DOTS 骨骼动画 Demo 占位封面">
-          <span class="media-badge">FEATURED · 2026</span>
-        </div>
-        <div class="featured-info">
-          <p>01 / UNITY DOTS</p>
-          <h3>DOTS 骨骼动画测试 Demo</h3>
-          <p>GPU 骨骼动画烘焙、ECS 多线程更新与 GPU Instancing 批量渲染。</p>
-          <div class="tag-row"><span>Unity</span><span>C#</span><span>ECS</span><span>Shader</span></div>
-          <b class="circle-arrow">↗</b>
-        </div>
-      </a>
-    </section>
+    <div class="color-bridge" aria-hidden="true"></div>
 
-    <section class="home-stats section-shell">
-      <div><strong>03</strong><span>精品项目规划</span></div>
-      <div><strong>79/79</strong><span>Runtime 探针覆盖</span></div>
-      <div><strong>∞</strong><span>持续学习与迭代</span></div>
-      <a href="experience.html">查看经历与能力 <b>→</b></a>
-    </section>
+    <div class="home-board">
+      <div class="home-layout">
+        <nav class="page-toc" aria-label="首页目录">
+          <p class="page-toc-title">目录</p>
+          <a href="#featured"><small>01</small><span>精选作品</span></a>
+          <a href="#internship"><small>02</small><span>实习经历</span></a>
+          <a href="#skills"><small>03</small><span>专业技能</span></a>
+          <a href="#competitions"><small>04</small><span>比赛经历</span></a>
+        </nav>
+
+        <div class="home-main">
+          <section class="home-block" id="featured" data-toc>
+            <header class="home-section-head">
+              <h2>01 · 精选作品</h2>
+            </header>
+            <article class="work-feature">
+              <h2>DOTS 骨骼动画测试 Demo</h2>
+              <div class="work-split">
+                <div class="work-copy">
+                  <p class="work-meta">2026.01 — 2026.03 · Unity 客户端 · 独立开发</p>
+                  <p>基于 Unity DOTS / ECS 实现高性能 GPU 骨骼动画测试。动画数据烘焙到二维纹理，由 Shader 采样，再配合 GPU Instancing 做大规模实体批量渲染。</p>
+                  <p>我独立完成动画烘焙 Editor 工具、ECS 动画更新系统与渲染 Shader，并优化材质属性传递和多线程更新流程。</p>
+                  <div class="tag-row"><span>Unity</span><span>C#</span><span>ECS</span><span>Shader</span></div>
+                  <a class="button primary" href="project-dots.html">查看作品详情</a>
+                </div>
+                <div class="work-video">
+                  <img src="assets/images/projects/dots/video-poster.svg" alt="DOTS 骨骼动画 Demo 视频封面">
+                  <video controls muted playsinline preload="metadata" poster="assets/images/projects/dots/video-poster.svg" aria-label="DOTS 骨骼动画测试 Demo 演示视频">
+                    <source src="assets/videos/dots-demo.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </article>
+            <article class="work-feature">
+              <h2>帧同步 Demo</h2>
+              <div class="work-split">
+                <div class="work-copy">
+                  <p class="work-meta">2026.03 — 2026.06 · Unity 客户端 · 独立开发</p>
+                  <p>基于帧同步的 MOBA 多人对战 Demo，包含玩家登录匹配、自定义物理引擎、普攻与技能系统、录像回放、断线重连和网络延迟优化。</p>
+                  <p>我独立完成客户端与服务器，基于 TCP / UDP 与 Protobuf 搭建通信框架和帧同步核心逻辑，并实现自定义物理碰撞检测与战斗系统。</p>
+                  <div class="tag-row"><span>Unity</span><span>C#</span><span>帧同步</span><span>Protobuf</span></div>
+                  <a class="button primary" href="project-framesync.html">查看作品详情</a>
+                </div>
+                <div class="work-video">
+                  <img src="assets/images/projects/framesync/video-poster.svg" alt="帧同步 Demo 视频封面">
+                  <video controls muted playsinline preload="metadata" poster="assets/images/projects/framesync/video-poster.svg" aria-label="帧同步 Demo 演示视频">
+                    <source src="assets/videos/framesync-demo.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <section class="home-block" id="internship" data-toc>
+            <header class="home-section-head">
+              <h2>02 · 实习经历</h2>
+              <h3>杭州风林科技有限公司</h3>
+            </header>
+            <article class="intern-card">
+              <div class="intern-meta">
+                <p>2026.06 — 2026.09</p>
+                <p>Unity3D 游戏开发实习</p>
+                <p>杭州</p>
+              </div>
+              <ul>
+                <li>参与 Unity 战斗系统 Lua→C# 重构，结合 AI 辅助调用链与资产依赖分析，完成 11 条主动技能的 C# Runtime 迁移；独立完成 Attack、Bullet、对象池、Prefab 与 Luban 配置链路。</li>
+                <li>批量推进战斗 Buff 系统迁移，独立完成 57 个原生 Buff Runtime，覆盖控制、护盾 / 无敌、伤害与暴击修正、受击触发及技能联动；统一生命周期、叠层、事件 Hook 和资源清理机制。</li>
+                <li>使用 AI Agent 与 Unity MCP 辅助调用链梳理、资产引用核验、代码审查和测试补全，建立配置驱动的 Buff 创建与验证链路，完成 79 条有效配置与 71 个 C# Runtime Factory。</li>
+                <li>设计 native-first / Lua-fallback 兼容方案，保障 Lua Enemy、旧存档和未迁移模块平滑运行；修复对象池回收后引用残留，并完成战斗暂停、退出重进和对象清理回归。</li>
+              </ul>
+            </article>
+          </section>
+
+          <section class="home-block" id="skills" data-toc>
+            <header class="home-section-head">
+              <h2>03 · 专业技能</h2>
+            </header>
+            <div class="home-skill-groups">
+              <article class="home-skill-group">
+                <h3>开发技术</h3>
+                <ul>
+                  <li><b>计算机基础：</b>熟悉 C#、Lua 和面向对象编程，掌握数据结构与算法；熟悉计算机操作系统、计算机网络。</li>
+                  <li><b>程序设计：</b>熟悉常见游戏设计模式，了解 DOTween、Unity ECS 开源框架等。</li>
+                  <li><b>工具部分：</b>熟悉 Unity 引擎、Git、Protobuf、Beyond Compare 等开发工具。</li>
+                  <li><b>Unity 开发：</b>熟悉 Unity 组件与 Prefab 工作流、对象池、事件系统、DOTween；了解 Shader、GPU Instancing；具有 DOTS/ECS 系统和 Editor 工具开发经验。</li>
+                </ul>
+              </article>
+              <article class="home-skill-group">
+                <h3>AI 技术应用</h3>
+                <ul>
+                  <li>掌握 Prompt 工程和优化技巧，能利用 Cursor / Claude Code / Codex 等 AI 编程工具高效开发，掌握 MCP Server 和 Agent Skills 等工具。</li>
+                  <li>熟悉 Vibe Coding、SDD、Harness Engineering 等多种 AI 编程模式，能利用 OpenSpec 等工具驱动 AI 完成项目。</li>
+                </ul>
+              </article>
+            </div>
+          </section>
+
+          <section class="home-block" id="competitions" data-toc>
+            <header class="home-section-head">
+              <h2>04 · 比赛经历</h2>
+            </header>
+            <ol class="award-timeline">
+              <li>
+                <time datetime="2026-05">2026.05</time>
+                <div>
+                  <h3>21 天 Gamejam 游戏开发大赛</h3>
+                  <p>参加三次，从零搭项目并落地。</p>
+                </div>
+              </li>
+              <li>
+                <time datetime="2025-12">2025.12</time>
+                <div>
+                  <h3>第十一届全国应用型人才综合技能大赛</h3>
+                  <p>国家三等奖</p>
+                </div>
+              </li>
+              <li>
+                <time datetime="2025-12">2025.12</time>
+                <div>
+                  <h3>第十九届全国三维数字化创新设计大赛「龙鼎奖」</h3>
+                  <p>省级一等奖</p>
+                </div>
+              </li>
+              <li>
+                <time datetime="2025-10">2025.10</time>
+                <div>
+                  <h3>中国国际大学生创新大赛（原互联网+）</h3>
+                  <p>省级铜奖</p>
+                </div>
+              </li>
+              <li>
+                <time datetime="2025-08">2025.08</time>
+                <div>
+                  <h3>未来设计师：全国高校数字艺术设计大赛</h3>
+                  <p>省级二等奖</p>
+                </div>
+              </li>
+              <li>
+                <time datetime="2024-12">2024.12</time>
+                <div>
+                  <h3>手部点云压编及骨架线提取压编</h3>
+                  <p>计算机软件著作权</p>
+                </div>
+              </li>
+              <li>
+                <time datetime="2024-12">2024.12</time>
+                <div>
+                  <h3>第十八届全国三维数字化创新设计大赛「龙鼎奖」</h3>
+                  <p>国家三等奖</p>
+                </div>
+              </li>
+              <li>
+                <time datetime="2024-11">2024.11</time>
+                <div>
+                  <h3>三维手语建模研究</h3>
+                  <p>学术论文</p>
+                </div>
+              </li>
+            </ol>
+          </section>
+        </div>
+      </div>
+    </div>
   </main>
 
   <nav class="mobile-nav" aria-label="手机端导航">
     <a data-nav="home" href="index.html"><span>⌂</span>首页</a>
     <a data-nav="works" href="works.html"><span>◇</span>作品</a>
-    <a data-nav="experience" href="experience.html"><span>⌁</span>经历</a>
+    <a data-nav="experience" href="#internship"><span>⌁</span>经历</a>
     <a data-nav="about" href="about.html"><span>○</span>关于</a>
     <a data-nav="resume" href="resume.html"><span>↓</span>简历</a>
   </nav>

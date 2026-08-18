@@ -6,7 +6,7 @@
 
 | 内容 | 当前占位文件 | 建议比例 |
 | --- | --- | --- |
-| 封面背景 | `assets/images/背景.jpg` | 当前背景图，使用全屏 cover 展示 |
+| 封面背景 | `assets/images/背景图.png` | 当前背景图，使用全屏 cover 展示 |
 | 头像插画 | `assets/images/肖像图.png` | 当前约 2:3，透明 PNG |
 | DOTS 封面 | `assets/images/projects/dots/cover.svg` | 16:10 |
 | DOTS 详情图 1 | `assets/images/projects/dots/detail-01.svg` | 16:9 |

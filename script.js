@@ -145,4 +145,32 @@
   window.addEventListener('keydown', event => { if (event.key === 'Escape') document.querySelectorAll('.is-open').forEach(closeModal); });
 
   document.querySelector('[data-print]')?.addEventListener('click', () => window.print());
+
+  const tocLinks = [...document.querySelectorAll('.page-toc a')];
+  const tocSections = [...document.querySelectorAll('[data-toc]')];
+  if (tocLinks.length && tocSections.length) {
+    const setActive = id => {
+      tocLinks.forEach(link => link.classList.toggle('is-active', link.getAttribute('href') === `#${id}`));
+    };
+    const observer = new IntersectionObserver(entries => {
+      const visible = entries
+        .filter(entry => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible?.target.id) setActive(visible.target.id);
+    }, { rootMargin: '-28% 0px -58% 0px', threshold: [0, .25, .6] });
+    tocSections.forEach(section => observer.observe(section));
+    tocLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        const id = link.getAttribute('href')?.slice(1);
+        if (id) setActive(id);
+      });
+    });
+  }
+
+  document.querySelectorAll('.work-video video').forEach(video => {
+    const stage = video.parentElement;
+    const fail = () => stage?.classList.add('is-empty');
+    video.addEventListener('error', fail);
+    video.querySelector('source')?.addEventListener('error', fail);
+  });
 })();
