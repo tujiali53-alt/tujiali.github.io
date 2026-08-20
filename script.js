@@ -2,13 +2,80 @@
   const root = document.documentElement;
   const page = document.body.dataset.page;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const saveData = navigator.connection?.saveData === true;
+  const loader = document.querySelector('.page-loader');
+  const loaderBar = loader?.querySelector('[role="progressbar"]');
+  const loaderPercent = loader?.querySelector('[data-loader-percent]');
+  const loaderStartedAt = performance.now();
+  const minimumLoaderTime = reducedMotion ? 0 : 320;
+  let loaderProgress = reducedMotion ? 100 : 8;
+  let loaderFrame = 0;
+  let loaderFinishTimer = 0;
+  let loaderExitTimer = 0;
+  let idleTask = 0;
+  let startNonCriticalWork = () => {};
+  let nonCriticalStarted = false;
 
   const savedTheme = localStorage.getItem('portfolio-theme');
   if (savedTheme) root.dataset.theme = savedTheme;
 
-  window.addEventListener('load', () => {
-    window.setTimeout(() => document.querySelector('.page-loader')?.classList.add('is-done'), reducedMotion ? 0 : 650);
-  });
+  const renderLoaderProgress = value => {
+    const rounded = Math.max(0, Math.min(100, Math.round(value)));
+    loader?.style.setProperty('--loader-progress', String(rounded / 100));
+    if (loaderPercent) loaderPercent.textContent = `${rounded}%`;
+    loaderBar?.setAttribute('aria-valuenow', String(rounded));
+  };
+
+  const tickLoader = () => {
+    loaderProgress += (88 - loaderProgress) * .075;
+    renderLoaderProgress(loaderProgress);
+    if (loaderProgress < 87.5) loaderFrame = requestAnimationFrame(tickLoader);
+  };
+
+  const scheduleNonCritical = callback => {
+    if (nonCriticalStarted) return;
+    nonCriticalStarted = true;
+    if ('requestIdleCallback' in window) {
+      idleTask = window.requestIdleCallback(callback, { timeout: 1600 });
+    } else {
+      idleTask = window.setTimeout(callback, 700);
+    }
+  };
+
+  const finishLoader = () => {
+    if (!loader || loader.classList.contains('is-done')) return;
+    const remaining = Math.max(0, minimumLoaderTime - (performance.now() - loaderStartedAt));
+    window.clearTimeout(loaderFinishTimer);
+    loaderFinishTimer = window.setTimeout(() => {
+      cancelAnimationFrame(loaderFrame);
+      renderLoaderProgress(100);
+      loaderExitTimer = window.setTimeout(() => {
+        loader.classList.add('is-done');
+        loader.setAttribute('aria-hidden', 'true');
+        scheduleNonCritical(() => startNonCriticalWork());
+      }, reducedMotion ? 0 : 80);
+    }, remaining);
+  };
+
+  renderLoaderProgress(loaderProgress);
+  if (!reducedMotion && loader) loaderFrame = requestAnimationFrame(tickLoader);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', finishLoader, { once: true });
+  } else {
+    finishLoader();
+  }
+
+  const syncMotionState = () => root.classList.toggle('motion-paused', document.hidden);
+  document.addEventListener('visibilitychange', syncMotionState, { passive: true });
+  syncMotionState();
+
+  window.addEventListener('pagehide', () => {
+    cancelAnimationFrame(loaderFrame);
+    window.clearTimeout(loaderFinishTimer);
+    window.clearTimeout(loaderExitTimer);
+    if ('cancelIdleCallback' in window) window.cancelIdleCallback(idleTask);
+    else window.clearTimeout(idleTask);
+  }, { once: true });
 
   document.querySelectorAll(`[data-nav="${page}"]`).forEach(link => link.classList.add('is-active'));
 
@@ -36,101 +103,566 @@
     });
   });
 
+  const aboutCalendar = document.querySelector('[data-about-calendar]');
+  if (aboutCalendar) {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth();
+    const day = now.getDate();
+    const pad = value => String(value).padStart(2, '0');
+    const localDate = `${year}-${pad(month + 1)}-${pad(day)}`;
+    const weekdayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+    const firstDayOffset = (new Date(year, month, 1).getDay() + 6) % 7;
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const grid = aboutCalendar.querySelector('[data-calendar-grid]');
+
+    aboutCalendar.querySelector('[data-calendar-year]').textContent = String(year);
+    aboutCalendar.querySelector('[data-calendar-month]').textContent = pad(month + 1);
+    aboutCalendar.querySelector('[data-calendar-day]').textContent = pad(day);
+    aboutCalendar.querySelector('[data-calendar-weekday]').textContent = weekdayNames[now.getDay()];
+    aboutCalendar.querySelector('[data-calendar-full-date]').textContent = `${year}年${month + 1}月${day}日`;
+    const dateNode = aboutCalendar.querySelector('[data-calendar-date]');
+    dateNode.dateTime = localDate;
+
+    const calendarFragment = document.createDocumentFragment();
+    for (let cell = 0; cell < 42; cell += 1) {
+      const dateNumber = cell - firstDayOffset + 1;
+      const dateCell = document.createElement('span');
+      if (dateNumber < 1 || dateNumber > daysInMonth) {
+        dateCell.className = 'is-muted';
+        dateCell.setAttribute('aria-hidden', 'true');
+      } else {
+        dateCell.textContent = String(dateNumber);
+        dateCell.setAttribute('aria-label', `${month + 1}月${dateNumber}日`);
+        if (dateNumber === day) {
+          dateCell.className = 'is-today';
+          dateCell.setAttribute('aria-current', 'date');
+        }
+      }
+      calendarFragment.appendChild(dateCell);
+    }
+    grid?.replaceChildren(calendarFragment);
+  }
+
+  const aboutHero = document.querySelector('.about-hero');
+  const aboutIntro = document.querySelector('.about-intro');
+  if ((aboutHero || aboutIntro) && window.gsap) {
+    const gsap = window.gsap;
+    const CustomEase = window.CustomEase;
+    if (CustomEase) {
+      gsap.registerPlugin(CustomEase);
+      CustomEase.create('aboutSoft', '0.22,1,0.36,1');
+      CustomEase.create('aboutBuoyant', '0.17,1.4,0.36,1');
+    }
+    const aboutEase = CustomEase ? 'aboutSoft' : 'power3.out';
+    const buoyantEase = CustomEase ? 'aboutBuoyant' : 'back.out(1.7)';
+    const aboutMedia = gsap.matchMedia();
+
+    aboutMedia.add({
+      allowMotion: '(prefers-reduced-motion: no-preference)',
+      finePointer: '(pointer: fine)'
+    }, context => {
+      const { allowMotion, finePointer } = context.conditions;
+      const cleanup = [];
+
+      if (aboutHero && allowMotion) {
+        const entranceTargets = [
+          ...aboutHero.querySelectorAll('.about-hero-copy > *'),
+          aboutHero.querySelector('.about-calendar')
+        ].filter(Boolean);
+        gsap.set(entranceTargets, { autoAlpha: 0, y: 28 });
+
+        const revealHero = () => {
+          gsap.to(entranceTargets, {
+            autoAlpha: 1,
+            y: 0,
+            duration: .92,
+            stagger: .11,
+            ease: aboutEase,
+            overwrite: 'auto'
+          });
+          gsap.from(aboutHero.querySelectorAll('.about-calendar-grid span:not(.is-muted)'), {
+            autoAlpha: 0,
+            y: 7,
+            duration: .42,
+            stagger: { amount: .32, from: 'random' },
+            delay: .58,
+            ease: 'power2.out'
+          });
+          gsap.fromTo(aboutHero.querySelector('.about-hero-bg'),
+            { scale: 1.035 },
+            { scale: 1, duration: 1.5, ease: aboutEase }
+          );
+        };
+
+        let revealTimer = 0;
+        const scheduleReveal = () => { revealTimer = window.setTimeout(revealHero, 520); };
+        if (document.readyState === 'complete') scheduleReveal();
+        else window.addEventListener('load', scheduleReveal, { once: true });
+        cleanup.push(() => {
+          window.clearTimeout(revealTimer);
+          window.removeEventListener('load', scheduleReveal);
+          gsap.killTweensOf(entranceTargets);
+        });
+      }
+
+      if (aboutHero && allowMotion && finePointer) {
+        const focusTargets = [...aboutHero.querySelectorAll('[data-about-focus]')];
+        const heroBubbles = [...aboutHero.querySelectorAll('.about-water-bubbles i')];
+        const bubbleScaleTos = heroBubbles.map(bubble => gsap.quickTo(bubble, 'scale', { duration: .38, ease: aboutEase }));
+        let bubbleMetrics = [];
+        let heroRect = aboutHero.getBoundingClientRect();
+        let activeFocus = null;
+
+        const measureHero = () => {
+          heroRect = aboutHero.getBoundingClientRect();
+          bubbleMetrics = heroBubbles.map(bubble => ({
+            centerX: bubble.offsetLeft + bubble.offsetWidth / 2,
+            centerY: bubble.offsetTop + bubble.offsetHeight / 2,
+            radius: bubble.offsetWidth / 2 + 74
+          }));
+        };
+        measureHero();
+        const resetFocus = () => {
+          if (activeFocus) gsap.to(activeFocus, { scale: 1, duration: .36, ease: aboutEase, overwrite: 'auto' });
+          activeFocus = null;
+          bubbleScaleTos.forEach(scaleTo => scaleTo(1));
+        };
+        const moveFocus = event => {
+          const x = event.clientX - heroRect.left;
+          const y = event.clientY - heroRect.top;
+          const nextFocus = event.target.closest?.('[data-about-focus]') || null;
+          if (nextFocus !== activeFocus) {
+            if (activeFocus) gsap.to(activeFocus, { scale: 1, duration: .36, ease: aboutEase, overwrite: 'auto' });
+            if (nextFocus) gsap.to(nextFocus, { scale: 1.065, duration: .42, ease: aboutEase, overwrite: 'auto' });
+            activeFocus = nextFocus;
+          }
+          heroBubbles.forEach((bubble, index) => {
+            const metric = bubbleMetrics[index];
+            const bubbleX = metric.centerX + (Number(gsap.getProperty(bubble, 'x')) || 0);
+            const bubbleY = metric.centerY + (Number(gsap.getProperty(bubble, 'y')) || 0);
+            const distance = Math.hypot(x - bubbleX, y - bubbleY);
+            bubbleScaleTos[index](distance < metric.radius ? 1.18 : 1);
+          });
+        };
+
+        aboutHero.addEventListener('pointerleave', resetFocus);
+        aboutHero.addEventListener('pointermove', moveFocus, { passive: true });
+        window.addEventListener('resize', measureHero, { passive: true });
+
+        cleanup.push(() => {
+          aboutHero.removeEventListener('pointerleave', resetFocus);
+          aboutHero.removeEventListener('pointermove', moveFocus);
+          window.removeEventListener('resize', measureHero);
+          gsap.killTweensOf([...focusTargets, ...heroBubbles]);
+        });
+      }
+
+      if (aboutHero && allowMotion) {
+        const waterBubbles = [...aboutHero.querySelectorAll('.about-water-bubbles i')];
+        const bubbleTweens = waterBubbles.map((bubble, index) => gsap.to(bubble, {
+          x: Math.sin(index * 1.47) * (36 + index % 3 * 18),
+          y: Math.cos(index * 1.12) * (28 + index % 4 * 14),
+          rotation: `+=${index % 2 ? 34 : -29}`,
+          opacity: .22 + index % 4 * .045,
+          duration: 1.625 + index % 5 * .21,
+          delay: -index * .315,
+          repeat: -1,
+          yoyo: true,
+          ease: 'sine.inOut'
+        }));
+        let bubbleObserver = null;
+        if ('IntersectionObserver' in window) {
+          bubbleObserver = new IntersectionObserver(entries => {
+            bubbleTweens.forEach(tween => entries[0]?.isIntersecting ? tween.play() : tween.pause());
+          }, { rootMargin: '120px 0px' });
+          bubbleObserver.observe(aboutHero);
+        }
+        cleanup.push(() => {
+          bubbleObserver?.disconnect();
+          bubbleTweens.forEach(tween => tween.kill());
+        });
+      }
+
+      if (aboutIntro && allowMotion) {
+        const bubbles = [...aboutIntro.querySelectorAll('.keyword-bubble')];
+        const bubbleCloud = aboutIntro.querySelector('.about-keyword-cloud');
+        const bubbleStates = bubbles.map((bubble, index) => ({
+          bubble,
+          index,
+          x: 0,
+          y: 0,
+          homeX: 0,
+          homeY: 0,
+          vx: Math.sin(index * 1.71) * .18,
+          vy: Math.cos(index * 1.23) * .14,
+          phase: index * .83,
+          clickChain: 0,
+          lastClickAt: 0,
+          setX: gsap.quickSetter(bubble, 'x', 'px'),
+          setY: gsap.quickSetter(bubble, 'y', 'px'),
+          setRotation: gsap.quickSetter(bubble, 'rotation', 'deg')
+        }));
+        let activeBubble = null;
+        let bubblePhysicsActive = true;
+        let totalBubbleClicks = 0;
+
+        const swapBubbleHomes = (firstState, secondState) => {
+          const firstAbsoluteX = firstState.bubble.offsetLeft + firstState.homeX;
+          const firstAbsoluteY = firstState.bubble.offsetTop + firstState.homeY;
+          const secondAbsoluteX = secondState.bubble.offsetLeft + secondState.homeX;
+          const secondAbsoluteY = secondState.bubble.offsetTop + secondState.homeY;
+          firstState.homeX = secondAbsoluteX - firstState.bubble.offsetLeft;
+          firstState.homeY = secondAbsoluteY - firstState.bubble.offsetTop;
+          secondState.homeX = firstAbsoluteX - secondState.bubble.offsetLeft;
+          secondState.homeY = firstAbsoluteY - secondState.bubble.offsetTop;
+        };
+
+        const updateBubblePhysics = (time, deltaTime) => {
+          if (!bubblePhysicsActive || !bubbleCloud) return;
+          const step = Math.min(2, Math.max(.35, deltaTime / 16.667));
+          const cloudWidth = bubbleCloud.clientWidth;
+          const cloudHeight = bubbleCloud.clientHeight;
+
+          bubbleStates.forEach(state => {
+            state.vx += ((state.homeX - state.x) * .0018 + Math.sin(time * 1.2 + state.phase) * .006) * step;
+            state.vy += ((state.homeY - state.y) * .0018 - .004 + Math.cos(time * .95 + state.phase) * .005) * step;
+            state.vx *= Math.pow(.982, step);
+            state.vy *= Math.pow(.982, step);
+            state.x += state.vx * step;
+            state.y += state.vy * step;
+          });
+
+          for (let firstIndex = 0; firstIndex < bubbleStates.length; firstIndex += 1) {
+            const first = bubbleStates[firstIndex];
+            const firstRadius = first.bubble.offsetWidth * .39;
+            for (let secondIndex = firstIndex + 1; secondIndex < bubbleStates.length; secondIndex += 1) {
+              const second = bubbleStates[secondIndex];
+              const secondRadius = second.bubble.offsetWidth * .39;
+              const deltaX = (second.bubble.offsetLeft + second.x + second.bubble.offsetWidth / 2) - (first.bubble.offsetLeft + first.x + first.bubble.offsetWidth / 2);
+              const deltaY = (second.bubble.offsetTop + second.y + second.bubble.offsetHeight / 2) - (first.bubble.offsetTop + first.y + first.bubble.offsetHeight / 2);
+              const distance = Math.max(1, Math.hypot(deltaX, deltaY));
+              const minimumDistance = firstRadius + secondRadius;
+              if (distance >= minimumDistance) continue;
+              const normalX = deltaX / distance;
+              const normalY = deltaY / distance;
+              const pressure = (minimumDistance - distance) * .018 * step;
+              first.vx -= normalX * pressure;
+              first.vy -= normalY * pressure;
+              second.vx += normalX * pressure;
+              second.vy += normalY * pressure;
+            }
+          }
+
+          bubbleStates.forEach(state => {
+            const bubbleWidth = state.bubble.offsetWidth;
+            const bubbleHeight = state.bubble.offsetHeight;
+            const absoluteX = state.bubble.offsetLeft + state.x;
+            const absoluteY = state.bubble.offsetTop + state.y;
+            if (absoluteX < -4) {
+              state.x += -4 - absoluteX;
+              state.vx = Math.abs(state.vx) * .62;
+            } else if (absoluteX + bubbleWidth > cloudWidth + 4) {
+              state.x -= absoluteX + bubbleWidth - cloudWidth - 4;
+              state.vx = -Math.abs(state.vx) * .62;
+            }
+            if (absoluteY < -8) {
+              state.y += -8 - absoluteY;
+              state.vy = Math.abs(state.vy) * .52;
+            } else if (absoluteY + bubbleHeight > cloudHeight + 7) {
+              state.y -= absoluteY + bubbleHeight - cloudHeight - 7;
+              state.vy = -Math.abs(state.vy) * .52;
+            }
+            state.setX(state.x);
+            state.setY(state.y);
+            state.setRotation(Math.max(-9, Math.min(9, state.vx * 3.4)));
+          });
+        };
+
+        gsap.ticker.add(updateBubblePhysics);
+
+        let bubbleObserver = null;
+        if ('IntersectionObserver' in window) {
+          bubbleObserver = new IntersectionObserver(entries => {
+            bubblePhysicsActive = Boolean(entries[0]?.isIntersecting);
+          }, { rootMargin: '160px 0px' });
+          bubbleObserver.observe(aboutIntro);
+        }
+
+        const moveAcrossBubbles = event => {
+          const nextBubble = event.target.closest?.('.keyword-bubble') || null;
+          if (nextBubble === activeBubble) return;
+          if (activeBubble) gsap.to(activeBubble, { scale: 1, duration: .3, ease: aboutEase, overwrite: 'auto' });
+          if (nextBubble) gsap.to(nextBubble, { scale: 1.14, duration: .32, ease: aboutEase, overwrite: 'auto' });
+          activeBubble = nextBubble;
+        };
+        const leaveBubbles = () => {
+          if (activeBubble) gsap.to(activeBubble, { scale: 1, duration: .3, ease: aboutEase, overwrite: 'auto' });
+          activeBubble = null;
+        };
+        if (finePointer) {
+          bubbleCloud?.addEventListener('pointermove', moveAcrossBubbles, { passive: true });
+          bubbleCloud?.addEventListener('pointerleave', leaveBubbles);
+        }
+
+        const liftBubble = event => {
+          const bubble = event.target.closest?.('.keyword-bubble');
+          if (!bubble) return;
+          const bubbleIndex = bubbles.indexOf(bubble);
+          const state = bubbleStates[bubbleIndex];
+          if (!state) return;
+          const now = Date.now();
+          state.clickChain = now - state.lastClickAt < 620 ? Math.min(6, state.clickChain + 1) : 1;
+          state.lastClickAt = now;
+          totalBubbleClicks += 1;
+
+          const speedBoost = 1 + state.clickChain * .46;
+          state.vy -= 2.4 * speedBoost;
+          state.vx += gsap.utils.random(-1.15, 1.15) * speedBoost;
+
+          const clickedCenterX = bubble.offsetLeft + state.x + bubble.offsetWidth / 2;
+          const clickedCenterY = bubble.offsetTop + state.y + bubble.offsetHeight / 2;
+          bubbleStates.forEach(otherState => {
+            if (otherState === state) return;
+            const otherCenterX = otherState.bubble.offsetLeft + otherState.x + otherState.bubble.offsetWidth / 2;
+            const otherCenterY = otherState.bubble.offsetTop + otherState.y + otherState.bubble.offsetHeight / 2;
+            const deltaX = otherCenterX - clickedCenterX;
+            const deltaY = otherCenterY - clickedCenterY;
+            const distance = Math.max(36, Math.hypot(deltaX, deltaY));
+            if (distance > 250) return;
+            const push = (250 - distance) / 250 * (.7 + state.clickChain * .18);
+            otherState.vx += deltaX / distance * push;
+            otherState.vy += deltaY / distance * push - .12;
+          });
+
+          if (totalBubbleClicks % 2 === 0 || state.clickChain >= 3) {
+            let swapIndex = Math.floor(Math.random() * bubbleStates.length);
+            if (swapIndex === bubbleIndex) swapIndex = (swapIndex + 1) % bubbleStates.length;
+            swapBubbleHomes(state, bubbleStates[swapIndex]);
+          }
+
+          gsap.killTweensOf(bubble, 'scale');
+          const restingScale = finePointer && activeBubble === bubble ? 1.14 : 1;
+          gsap.fromTo(bubble,
+            { scale: restingScale * .94 },
+            {
+              scale: restingScale * 1.08,
+              duration: Math.max(.16, .3 - state.clickChain * .025),
+              ease: buoyantEase,
+              yoyo: true,
+              repeat: 1,
+              overwrite: 'auto',
+              onComplete: () => gsap.set(bubble, { scale: restingScale })
+            }
+          );
+        };
+        bubbleCloud?.addEventListener('click', liftBubble);
+
+        const resetBubblePhysics = () => {
+          bubbleStates.forEach(state => {
+            state.x = 0;
+            state.y = 0;
+            state.homeX = 0;
+            state.homeY = 0;
+            state.vx = 0;
+            state.vy = 0;
+          });
+        };
+        window.addEventListener('resize', resetBubblePhysics, { passive: true });
+
+        cleanup.push(() => {
+          bubbleObserver?.disconnect();
+          gsap.ticker.remove(updateBubblePhysics);
+          gsap.killTweensOf(bubbles);
+          bubbleCloud?.removeEventListener('pointermove', moveAcrossBubbles);
+          bubbleCloud?.removeEventListener('pointerleave', leaveBubbles);
+          bubbleCloud?.removeEventListener('click', liftBubble);
+          window.removeEventListener('resize', resetBubblePhysics);
+        });
+      }
+
+      return () => cleanup.forEach(callback => callback());
+    });
+
+    window.addEventListener('pagehide', () => aboutMedia.revert(), { once: true });
+  }
+
+  const journeyGallery = document.querySelector('.journey-gallery');
+  if (journeyGallery) {
+    const gallerySlides = [...journeyGallery.querySelectorAll('.journey-gallery-slide')];
+    const galleryCurrent = journeyGallery.querySelector('[data-gallery-current]');
+    const galleryPrev = journeyGallery.querySelector('[data-gallery-prev]');
+    const galleryNext = journeyGallery.querySelector('[data-gallery-next]');
+    let galleryIndex = 0;
+    let galleryTimeline = null;
+
+    const getGalleryPositions = () => window.matchMedia('(max-width: 680px)').matches
+      ? { previous: -116, current: -50, next: 16, hiddenPrevious: -220, hiddenNext: 120 }
+      : { previous: -158, current: -50, next: 58, hiddenPrevious: -268, hiddenNext: 168 };
+
+    const showJourneySlide = (nextIndex, direction = 1, immediate = false) => {
+      galleryIndex = (nextIndex + gallerySlides.length) % gallerySlides.length;
+      const positions = getGalleryPositions();
+      const slideStates = gallerySlides.map((slide, index) => {
+        const forwardDistance = (index - galleryIndex + gallerySlides.length) % gallerySlides.length;
+        if (forwardDistance === 0) return { position: positions.current, scale: 1.06, autoAlpha: 1, zIndex: 3, active: true };
+        if (forwardDistance === 1) return { position: positions.next, scale: .88, autoAlpha: .68, zIndex: 2, active: false };
+        if (forwardDistance === gallerySlides.length - 1) return { position: positions.previous, scale: .88, autoAlpha: .68, zIndex: 2, active: false };
+        return {
+          position: direction >= 0 ? positions.hiddenNext : positions.hiddenPrevious,
+          scale: .78,
+          autoAlpha: 0,
+          zIndex: 1,
+          active: false
+        };
+      });
+
+      gallerySlides.forEach((slide, index) => {
+        slide.classList.toggle('is-active', slideStates[index].active);
+        slide.setAttribute('aria-hidden', String(!slideStates[index].active));
+      });
+      if (galleryCurrent) galleryCurrent.textContent = String(galleryIndex + 1).padStart(2, '0');
+
+      if (!window.gsap || reducedMotion || immediate) {
+        gallerySlides.forEach((slide, index) => {
+          const state = slideStates[index];
+          if (window.gsap) {
+            window.gsap.set(slide, { xPercent: state.position, scale: state.scale, autoAlpha: state.autoAlpha, zIndex: state.zIndex });
+          }
+        });
+        return;
+      }
+
+      galleryTimeline?.kill();
+      galleryTimeline = window.gsap.timeline({ defaults: { duration: .72, ease: 'power3.inOut', overwrite: 'auto' } });
+      galleryTimeline.addLabel('shift', 0);
+      gallerySlides.forEach((slide, index) => {
+        const state = slideStates[index];
+        galleryTimeline.to(slide, {
+          xPercent: state.position,
+          scale: state.scale,
+          autoAlpha: state.autoAlpha,
+          zIndex: state.zIndex
+        }, 'shift');
+      });
+    };
+
+    const showPreviousJourneySlide = () => showJourneySlide(galleryIndex - 1, -1);
+    const showNextJourneySlide = () => showJourneySlide(galleryIndex + 1, 1);
+    const refreshJourneyGallery = () => showJourneySlide(galleryIndex, 1, true);
+    galleryPrev?.addEventListener('click', showPreviousJourneySlide);
+    galleryNext?.addEventListener('click', showNextJourneySlide);
+    window.addEventListener('resize', refreshJourneyGallery, { passive: true });
+    window.addEventListener('pagehide', () => {
+      galleryTimeline?.kill();
+      galleryPrev?.removeEventListener('click', showPreviousJourneySlide);
+      galleryNext?.removeEventListener('click', showNextJourneySlide);
+      window.removeEventListener('resize', refreshJourneyGallery);
+    }, { once: true });
+    showJourneySlide(0, 1, true);
+  }
+
   const hero = document.querySelector('.hero');
   const glow = document.querySelector('.hero-glow');
   if (hero && glow && !reducedMotion && matchMedia('(pointer:fine)').matches) {
     const sparkleColors = ['#ffffff', '#ddd4ff', '#c8f2ff', '#ffd9ef'];
+    const activeParticles = new Set();
+    let heroRect = hero.getBoundingClientRect();
+    let glowFrame = 0;
+    let pointerX = 0;
+    let pointerY = 0;
     let lastParticleAt = 0;
+    hero.addEventListener('pointerenter', () => { heroRect = hero.getBoundingClientRect(); }, { passive: true });
     hero.addEventListener('pointermove', event => {
-      const rect = hero.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
-      glow.style.left = `${x}px`;
-      glow.style.top = `${y}px`;
-      if (event.timeStamp - lastParticleAt < 28) return;
+      pointerX = event.clientX - heroRect.left;
+      pointerY = event.clientY - heroRect.top;
+      if (!glowFrame) {
+        glowFrame = requestAnimationFrame(() => {
+          glow.style.setProperty('--glow-x', `${pointerX}px`);
+          glow.style.setProperty('--glow-y', `${pointerY}px`);
+          glowFrame = 0;
+        });
+      }
+      if (event.timeStamp - lastParticleAt < 48 || activeParticles.size >= 24) return;
       lastParticleAt = event.timeStamp;
       const particle = document.createElement('i');
       particle.className = 'mouse-particle';
       if (Math.random() < .22) particle.classList.add('is-star');
-      particle.style.left = `${x + (Math.random() - .5) * 12}px`;
-      particle.style.top = `${y + (Math.random() - .5) * 12}px`;
+      particle.style.left = `${pointerX + (Math.random() - .5) * 12}px`;
+      particle.style.top = `${pointerY + (Math.random() - .5) * 12}px`;
       particle.style.setProperty('--size', `${Math.random() * 3.5 + 2}px`);
       particle.style.setProperty('--dx', `${(Math.random() - .5) * 28}px`);
       particle.style.setProperty('--dy', `${-(Math.random() * 24 + 8)}px`);
       particle.style.setProperty('--particle-color', sparkleColors[Math.floor(Math.random() * sparkleColors.length)]);
       hero.appendChild(particle);
-      particle.addEventListener('animationend', () => particle.remove(), { once: true });
+      activeParticles.add(particle);
+      particle.addEventListener('animationend', () => {
+        activeParticles.delete(particle);
+        particle.remove();
+      }, { once: true });
     });
   }
 
-  const worksTitle = document.querySelector('#works-hero-title');
-  if (worksTitle && !reducedMotion && matchMedia('(pointer:fine)').matches) {
-    const letters = [...worksTitle.querySelectorAll('span')];
-    const resetWorksTitle = () => {
-      worksTitle.style.setProperty('--title-rotate-x', '0deg');
-      worksTitle.style.setProperty('--title-rotate-y', '0deg');
-      worksTitle.style.setProperty('--title-scale', '1');
-      letters.forEach(letter => {
-        letter.style.setProperty('--letter-scale', '1');
-        letter.style.setProperty('--letter-lift', '0px');
+  const setupLetterTilt = (element, selector, variables) => {
+    if (!element || reducedMotion || !matchMedia('(pointer:fine)').matches) return;
+    const letters = [...element.querySelectorAll(selector)];
+    let bounds;
+    let centers = [];
+    let pointerX = 0;
+    let pointerY = 0;
+    let frame = 0;
+
+    const measure = () => {
+      bounds = element.getBoundingClientRect();
+      centers = letters.map(letter => {
+        const rect = letter.getBoundingClientRect();
+        return rect.left + rect.width / 2;
       });
     };
-
-    worksTitle.addEventListener('pointermove', event => {
-      const titleRect = worksTitle.getBoundingClientRect();
-      const relativeX = (event.clientX - titleRect.left) / titleRect.width - .5;
-      const relativeY = (event.clientY - titleRect.top) / titleRect.height - .5;
-      worksTitle.style.setProperty('--title-rotate-x', `${(-relativeY * 6).toFixed(2)}deg`);
-      worksTitle.style.setProperty('--title-rotate-y', `${(relativeX * 8).toFixed(2)}deg`);
-      worksTitle.style.setProperty('--title-scale', '1.025');
-
-      const influenceRange = Math.max(titleRect.width * .26, 90);
+    const reset = () => {
+      cancelAnimationFrame(frame);
+      frame = 0;
+      element.style.setProperty(variables.rotateX, '0deg');
+      element.style.setProperty(variables.rotateY, '0deg');
+      element.style.setProperty(variables.scale, '1');
       letters.forEach(letter => {
-        const letterRect = letter.getBoundingClientRect();
-        const letterCenter = letterRect.left + letterRect.width / 2;
-        const influence = Math.max(0, 1 - Math.abs(event.clientX - letterCenter) / influenceRange);
-        letter.style.setProperty('--letter-scale', (1 + influence * .2).toFixed(3));
-        letter.style.setProperty('--letter-lift', `${(-influence * 8).toFixed(1)}px`);
-      });
-    });
-    worksTitle.addEventListener('pointerleave', resetWorksTitle);
-  }
-
-  const worksSubtitle = document.querySelector('.works-hero-subtitle');
-  if (worksSubtitle && !reducedMotion && matchMedia('(pointer:fine)').matches) {
-    const subtitleLetters = [...worksSubtitle.querySelectorAll('.subtitle-letter')];
-    const resetWorksSubtitle = () => {
-      worksSubtitle.style.setProperty('--subtitle-rotate-x', '0deg');
-      worksSubtitle.style.setProperty('--subtitle-rotate-y', '0deg');
-      worksSubtitle.style.setProperty('--subtitle-scale', '1');
-      subtitleLetters.forEach(letter => {
-        letter.style.setProperty('--subtitle-letter-scale', '1');
-        letter.style.setProperty('--subtitle-letter-lift', '0px');
+        letter.style.setProperty(variables.letterScale, '1');
+        letter.style.setProperty(variables.letterLift, '0px');
       });
     };
-
-    worksSubtitle.addEventListener('pointermove', event => {
-      const subtitleRect = worksSubtitle.getBoundingClientRect();
-      const relativeX = (event.clientX - subtitleRect.left) / subtitleRect.width - .5;
-      const relativeY = (event.clientY - subtitleRect.top) / subtitleRect.height - .5;
-      worksSubtitle.style.setProperty('--subtitle-rotate-x', `${(-relativeY * 6).toFixed(2)}deg`);
-      worksSubtitle.style.setProperty('--subtitle-rotate-y', `${(relativeX * 8).toFixed(2)}deg`);
-      worksSubtitle.style.setProperty('--subtitle-scale', '1.02');
-
-      const influenceRange = Math.max(subtitleRect.width * .13, 70);
-      subtitleLetters.forEach(letter => {
-        const letterRect = letter.getBoundingClientRect();
-        const letterCenter = letterRect.left + letterRect.width / 2;
-        const influence = Math.max(0, 1 - Math.abs(event.clientX - letterCenter) / influenceRange);
-        letter.style.setProperty('--subtitle-letter-scale', (1 + influence * .2).toFixed(3));
-        letter.style.setProperty('--subtitle-letter-lift', `${(-influence * 8).toFixed(1)}px`);
+    const render = () => {
+      if (!bounds) measure();
+      const relativeX = (pointerX - bounds.left) / bounds.width - .5;
+      const relativeY = (pointerY - bounds.top) / bounds.height - .5;
+      const influenceRange = Math.max(bounds.width * variables.range, variables.minimumRange);
+      element.style.setProperty(variables.rotateX, `${(-relativeY * 6).toFixed(2)}deg`);
+      element.style.setProperty(variables.rotateY, `${(relativeX * 8).toFixed(2)}deg`);
+      element.style.setProperty(variables.scale, variables.activeScale);
+      letters.forEach((letter, index) => {
+        const influence = Math.max(0, 1 - Math.abs(pointerX - centers[index]) / influenceRange);
+        letter.style.setProperty(variables.letterScale, (1 + influence * .2).toFixed(3));
+        letter.style.setProperty(variables.letterLift, `${(-influence * 8).toFixed(1)}px`);
       });
-    });
-    worksSubtitle.addEventListener('pointerleave', resetWorksSubtitle);
-    window.addEventListener('pointermove', event => {
-      if (!worksSubtitle.contains(event.target)) resetWorksSubtitle();
+      frame = 0;
+    };
+
+    element.addEventListener('pointerenter', measure, { passive: true });
+    element.addEventListener('pointermove', event => {
+      pointerX = event.clientX;
+      pointerY = event.clientY;
+      if (!frame) frame = requestAnimationFrame(render);
     }, { passive: true });
-  }
+    element.addEventListener('pointerleave', reset, { passive: true });
+  };
+
+  setupLetterTilt(document.querySelector('#works-hero-title'), 'span', {
+    rotateX: '--title-rotate-x', rotateY: '--title-rotate-y', scale: '--title-scale',
+    letterScale: '--letter-scale', letterLift: '--letter-lift', range: .26, minimumRange: 90, activeScale: '1.025'
+  });
+  setupLetterTilt(document.querySelector('.works-hero-subtitle'), '.subtitle-letter', {
+    rotateX: '--subtitle-rotate-x', rotateY: '--subtitle-rotate-y', scale: '--subtitle-scale',
+    letterScale: '--subtitle-letter-scale', letterLift: '--subtitle-letter-lift', range: .13, minimumRange: 70, activeScale: '1.02'
+  });
 
   const worksHero = document.querySelector('.works-hero');
   if (worksHero && !reducedMotion && matchMedia('(pointer:fine)').matches) {
@@ -138,15 +670,15 @@
     let lastBubbleAt = 0;
 
     worksHero.addEventListener('pointermove', event => {
-      if (event.timeStamp - lastBubbleAt < 22) return;
+      if (event.timeStamp - lastBubbleAt < 50) return;
       lastBubbleAt = event.timeStamp;
       const heroRect = worksHero.getBoundingClientRect();
       const originX = event.clientX - heroRect.left;
       const originY = event.clientY - heroRect.top;
-      const bubbleCount = Math.random() < .32 ? 4 : 3;
+      const bubbleCount = Math.random() < .35 ? 2 : 1;
 
       for (let index = 0; index < bubbleCount; index++) {
-        if (trailBubbles.size >= 72) {
+        if (trailBubbles.size >= 28) {
           const oldestBubble = trailBubbles.values().next().value;
           oldestBubble?.remove();
           trailBubbles.delete(oldestBubble);
@@ -179,7 +711,11 @@
   }
 
   const homeParticles = document.querySelector('#home-particles');
-  if (homeParticles && !reducedMotion && window.tsParticles && window.loadSlim) {
+  const bootHomeParticles = () => {
+    if (!homeParticles || reducedMotion || saveData || !window.tsParticles || !window.loadSlim) {
+      homeParticles?.classList.add(saveData ? 'is-data-saver' : 'is-unavailable');
+      return;
+    }
     const compactParticles = window.innerWidth < 720;
     const finePointer = matchMedia('(pointer:fine)').matches;
     window.loadSlim(window.tsParticles)
@@ -189,7 +725,7 @@
           fullScreen: { enable: false },
           background: { color: { value: 'transparent' } },
           detectRetina: true,
-          fpsLimit: compactParticles ? 40 : 60,
+          fpsLimit: compactParticles ? 30 : 45,
           pauseOnBlur: true,
           pauseOnOutsideViewport: true,
           particles: {
@@ -203,7 +739,7 @@
               straight: false,
               outModes: { default: 'out' }
             },
-            number: { value: compactParticles ? 34 : 68 },
+            number: { value: compactParticles ? 22 : 44 },
             opacity: {
               value: { min: .18, max: .72 },
               animation: { enable: true, speed: .65, sync: false }
@@ -218,12 +754,10 @@
             detectsOn: 'window',
             events: {
               onClick: { enable: false },
-              onHover: { enable: finePointer, mode: ['grab', 'bubble', 'repulse'] },
+              onHover: { enable: finePointer, mode: 'repulse' },
               resize: true
             },
             modes: {
-              bubble: { distance: 130, duration: 1.4, opacity: .88, size: 7.6 },
-              grab: { distance: 165, links: { color: '#e9f5ff', opacity: .28 } },
               repulse: { distance: 68, duration: .35 }
             }
           }
@@ -231,7 +765,26 @@
       }))
       .then(() => homeParticles.classList.add('is-ready'))
       .catch(() => homeParticles.classList.add('is-unavailable'));
-  }
+  };
+
+  const loadHomeParticles = () => {
+    if (!homeParticles || reducedMotion || saveData) {
+      homeParticles?.classList.add(saveData ? 'is-data-saver' : 'is-unavailable');
+      return;
+    }
+    if (window.tsParticles && window.loadSlim) {
+      bootHomeParticles();
+      return;
+    }
+    const particleScript = document.createElement('script');
+    particleScript.src = 'assets/vendor/tsparticles/tsparticles.slim.bundle.min.js';
+    particleScript.async = true;
+    particleScript.onload = bootHomeParticles;
+    particleScript.onerror = () => homeParticles.classList.add('is-unavailable');
+    document.head.appendChild(particleScript);
+  };
+
+  startNonCriticalWork = loadHomeParticles;
 
   const lightbox = document.querySelector('.lightbox');
   const lightboxImage = lightbox?.querySelector('img');

@@ -5,14 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="认识 Unity 客户端开发者涂佳利：性格、兴趣、跨专业学习经历与联系方式。">
   <title>关于我｜涂佳利</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="script.js" defer></script>
+  <link rel="stylesheet" href="styles.css?v=20260820-9">
+  <script src="assets/vendor/gsap/gsap.min.js" defer></script>
+  <script src="assets/vendor/gsap/CustomEase.min.js" defer></script>
+  <script src="script.js?v=20260820-8" defer></script>
 </head>
 <body data-page="about">
   <a class="skip-link" href="#about-content">跳到主要内容</a>
-  <div class="page-loader" aria-hidden="true">
-    <div class="loader-mark">ABOUT<span>.</span></div>
-    <div class="loader-line"><i></i></div>
+  <div class="page-loader" role="status" aria-live="polite">
+    <div class="pixel-pet" aria-hidden="true">
+      <i class="pixel-pet-ear pixel-pet-ear-left"></i><i class="pixel-pet-ear pixel-pet-ear-right"></i>
+      <i class="pixel-pet-tail"></i><i class="pixel-pet-body"></i><i class="pixel-pet-paw"></i>
+      <i class="pixel-pet-head"><b class="pixel-pet-eye"></b><b class="pixel-pet-cheek"></b><b class="pixel-pet-nose"></b></i>
+    </div>
+    <div class="loader-copy"><strong>正在加载中，即将完成...</strong><span data-loader-percent>0%</span></div>
+    <div class="loader-line" role="progressbar" aria-label="页面加载进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i></div>
   </div>
 
   <header class="topbar">
@@ -32,61 +39,75 @@
     </div>
   </header>
 
-  <aside class="side-rail" aria-hidden="true"><span>04</span><i></i><span>ABOUT</span></aside>
-
   <main class="inner-main about-main" id="about-content">
     <section class="about-hero" aria-labelledby="about-title">
-      <div class="about-hero-orbit about-hero-orbit-a" aria-hidden="true"></div>
-      <div class="about-hero-orbit about-hero-orbit-b" aria-hidden="true"></div>
-      <div class="about-hero-copy">
-        <span class="page-index">04 / ABOUT ME</span>
-        <h1 id="about-title">从测绘出发，<br><em>向游戏走去。</em></h1>
-        <p>跨专业不是一次突然的转向，而是一连串好奇、实践与选择的结果。这里记录我如何认识 Unity，也介绍屏幕之外的我。</p>
+      <div class="about-hero-bg" aria-hidden="true"></div>
+      <div class="about-hero-inner">
+        <div class="about-hero-copy">
+          <h1 id="about-title" data-about-focus>人生不是轨道，<br><em>而是旷野。</em></h1>
+          <p data-about-focus>沿着好奇心出发，把每一次尝试，都变成通往游戏世界的路。</p>
+        </div>
+
+        <aside class="about-calendar" data-about-calendar data-about-focus aria-label="本月公历日历">
+          <header class="about-calendar-head">
+            <p><small>GREGORIAN CALENDAR</small><span data-calendar-year>----</span></p>
+            <strong data-calendar-month>--</strong>
+          </header>
+          <div class="about-calendar-today">
+            <time data-calendar-date datetime=""><b data-calendar-day>--</b><span><small data-calendar-weekday>---</small>TODAY</span></time>
+            <p data-calendar-full-date>正在读取现实时间</p>
+          </div>
+          <div class="about-calendar-week" aria-hidden="true"><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span></div>
+          <div class="about-calendar-grid" data-calendar-grid aria-label="当月日期"></div>
+          <footer><span>JIALI'S MONTH</span><i aria-hidden="true"></i><span>LOCAL TIME</span></footer>
+        </aside>
       </div>
-      <nav class="about-anchor-nav" aria-label="关于页面目录">
-        <a href="#intro"><span>01</span>个人介绍</a>
-        <a href="#journey"><span>02</span>个人经历</a>
-        <a href="#contact"><span>03</span>联系方式</a>
-      </nav>
+      <div class="about-water-bubbles" aria-hidden="true">
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      </div>
       <span class="about-scroll-note" aria-hidden="true">SCROLL TO KNOW ME <i></i></span>
+      <div class="about-color-bridge" aria-hidden="true"></div>
     </section>
 
     <section class="about-section about-intro" id="intro" aria-labelledby="intro-title">
       <div class="about-section-label"><span>01</span><p>WHO I AM<br>个人介绍</p></div>
       <div class="about-intro-grid">
-        <figure class="about-portrait">
-          <div class="about-portrait-art">
-            <img src="assets/images/肖像图.png" alt="花朵、女孩与小狗组成的个人肖像插画">
-          </div>
-          <figcaption>
-            <span>PERSONALITY TYPE</span>
-            <strong>INTP</strong>
-            <small>安静思考，持续探索</small>
-          </figcaption>
-          <span class="about-sticker about-sticker-focus">FOCUS MODE · ON</span>
-          <span class="about-sticker about-sticker-hello">你好 :）</span>
+        <figure class="about-character-stage">
+          <img src="assets/images/profile/人设图.png" width="1080" height="1921" loading="lazy" decoding="async" alt="戴蓝色针织帽、身穿绿色上衣和浅色长裤的个人角色立绘">
         </figure>
 
         <div class="about-intro-copy">
-          <p class="kicker">HELLO, I AM JIALI.</p>
-          <h2 id="intro-title">我享受把复杂问题<br>一点点弄明白的过程。</h2>
-          <p class="about-lead">我是涂佳利，一名从测绘工程走向 Unity 客户端开发的本科生。作为 INTP，我习惯先理解问题的结构，再专注地把它做完整。</p>
-          <p>生活里的我随和、亲切，喜欢听不同的想法；进入工作状态后，我会认真对待每个承诺，主动跟进细节，也愿意为最终结果负责。</p>
+          <p class="kicker">HELLO, NICE TO MEET YOU.</p>
+          <h2 id="intro-title">知之者不如好之者，<br>好之者不如乐之者。</h2>
+          <p class="about-one-liner">一个习惯先把问题想清楚、再动手实现的 INTP；对游戏保持好奇，也愿意为喜欢的体验反复打磨。</p>
 
-          <div class="about-traits" aria-label="性格特点">
-            <div><span>01</span><b>专注</b><p>愿意沉下心钻研，也能长时间保持投入。</p></div>
-            <div><span>02</span><b>随和</b><p>尊重不同观点，重视清晰、舒服的协作。</p></div>
-            <div><span>03</span><b>负责</b><p>把事情收好尾，比只完成“差不多”更重要。</p></div>
+          <div class="about-hobbies" aria-labelledby="hobbies-title">
+            <div class="about-intro-module-title"><span>01</span><h3 id="hobbies-title">爱好</h3></div>
+            <ul>
+              <li><div><b>游戏</b><p>偏爱独立游戏、叙事解谜与轻策略，也喜欢观察小体量作品如何建立鲜明表达。</p></div></li>
+              <li><div><b>户外</b><p>滑板、徒步和旅行。换一个环境走走，既收集风景，也给大脑留一点空白。</p></div></li>
+              <li><div><b>流行文化</b><p>会听 K-pop、看动漫，关注舞台、角色与视觉设计带来的情绪和记忆点。</p></div></li>
+            </ul>
           </div>
 
-          <div class="about-hobbies">
-            <div class="about-hobbies-title"><span>OFF THE CLOCK</span><b>离开电脑以后</b></div>
-            <ul>
-              <li><span>独立游戏</span><small>体验不循常规的表达</small></li>
-              <li><span>滑板</span><small>在一次次练习里找到平衡</small></li>
-              <li><span>徒步</span><small>用脚步重新感受空间</small></li>
-              <li><span>旅行</span><small>去陌生地方收集新视角</small></li>
-            </ul>
+          <div class="about-keywords" aria-labelledby="keywords-title">
+            <div class="about-intro-module-title"><span>02</span><h3 id="keywords-title">关键词</h3></div>
+            <div class="about-keyword-cloud" aria-label="个人关键词动态气泡">
+              <button type="button" class="keyword-bubble keyword-bubble-lg" aria-label="关键词：认真，点击使气泡上浮">认真</button>
+              <button type="button" class="keyword-bubble keyword-bubble-xl" aria-label="关键词：热爱游戏，点击使气泡上浮">热爱游戏</button>
+              <button type="button" class="keyword-bubble keyword-bubble-sm" aria-label="关键词：INTP，点击使气泡上浮">INTP</button>
+              <button type="button" class="keyword-bubble keyword-bubble-sm" aria-label="关键词：自由，点击使气泡上浮">自由</button>
+              <button type="button" class="keyword-bubble keyword-bubble-xxl" aria-label="关键词：好奇心，点击使气泡上浮">好奇心</button>
+              <button type="button" class="keyword-bubble keyword-bubble-md" aria-label="关键词：随和，点击使气泡上浮">随和</button>
+              <button type="button" class="keyword-bubble keyword-bubble-xxl" aria-label="关键词：负责，点击使气泡上浮">负责</button>
+              <button type="button" class="keyword-bubble keyword-bubble-sm" aria-label="关键词：K-pop，点击使气泡上浮">K-pop</button>
+              <button type="button" class="keyword-bubble keyword-bubble-md" aria-label="关键词：二次元，点击使气泡上浮">二次元</button>
+              <button type="button" class="keyword-bubble keyword-bubble-sm" aria-label="关键词：打工人，点击使气泡上浮">打工人</button>
+              <button type="button" class="keyword-bubble keyword-bubble-lg" aria-label="关键词：好相处，点击使气泡上浮">好相处</button>
+              <button type="button" class="keyword-bubble keyword-bubble-sm" aria-label="关键词：抽象，点击使气泡上浮">抽象</button>
+              <button type="button" class="keyword-bubble keyword-bubble-lg" aria-label="关键词：努力学技能，点击使气泡上浮">努力学技能</button>
+            </div>
           </div>
         </div>
       </div>
@@ -95,64 +116,85 @@
     <section class="about-section about-journey" id="journey" aria-labelledby="journey-title">
       <div class="about-section-label about-section-label-light"><span>02</span><p>MY JOURNEY<br>个人经历</p></div>
       <div class="about-journey-grid">
-        <div class="about-journey-heading">
-          <p class="kicker">NOT A STRAIGHT LINE.</p>
-          <h2 id="journey-title">一条并不笔直，<br>却越来越确定的路。</h2>
-          <p>从测绘工程、AI 手语、虚拟仿真，到 VR、Game Jam 与游戏开发实习，每一步都让我更确定自己想把 Unity 作为长期方向。</p>
-          <a href="resume.html" class="about-text-link">查看完整简历 <span>↗</span></a>
-        </div>
+        <div class="about-journey-story">
+          <div class="about-journey-heading">
+            <p class="kicker">KEEP GOING, KEEP BECOMING.</p>
+            <h2 id="journey-title">道阻且长，<br>行则将至。</h2>
+            <p>每一次项目、比赛与合作，都把兴趣变成更清晰的方向，也让我一步步靠近真正想做的游戏。</p>
+            <a href="resume.html" class="about-text-link">查看完整简历 <span>↗</span></a>
+          </div>
 
-        <ol class="about-storyline">
+          <ol class="about-storyline">
           <li>
-            <span class="about-story-index">01</span>
+            <span class="about-story-index" aria-hidden="true">01</span>
             <div>
-              <p class="about-story-meta">THE BEGINNING · 测绘工程</p>
-              <h3>非计算机专业，也有扎实的编程入口。</h3>
-              <p>我的本科专业是测绘工程。课程中的计算机图形学、数据结构与算法、C# 面向对象程序设计，以及三维建模与可视化，为后来学习实时交互开发打下了基础。</p>
+              <time class="about-story-time">大一 · 起点</time>
+              <p class="about-story-meta">THE BEGINNING · 编程与三维基础</p>
+              <p>本科课程让我接触计算机图形学、数据结构与算法、C# 面向对象程序设计，以及三维建模与可视化，为实时交互开发打下了第一层基础。</p>
             </div>
           </li>
           <li>
             <span class="about-story-index">02</span>
             <div>
+              <time class="about-story-time">大一下 · 初识 Unity</time>
               <p class="about-story-meta">THE SPARK · AI 手语项目</p>
-              <h3>第一次接触 Unity，来自一个真实问题。</h3>
-              <p>大一下学期，我跟随导师参与 AI 手语项目：将机器学习与穿戴设备采集的手语数据，通过骨骼绑定驱动 Unity 数字人，再由数字人完成手语表达。这段经历让我系统接触 Unity，也带来了国家三等奖与软件著作权成果。</p>
+              <p>跟随导师参与 AI 手语项目后，我第一次把机器学习、穿戴设备采集的数据与 Unity 数字人连接起来：数据经过骨骼绑定，最终由数字人完成手语表达。项目获得国家三等奖，并形成软件著作权成果。</p>
               <ul class="about-story-tags" aria-label="项目关键词"><li>机器学习</li><li>穿戴设备</li><li>骨骼绑定</li><li>数字人</li></ul>
             </div>
           </li>
           <li>
             <span class="about-story-index">03</span>
             <div>
-              <p class="about-story-meta">GOING DEEPER · 持续学习</p>
-              <h3>兴趣与专业方向，在 Unity 这里交汇。</h3>
-              <p>游戏行业本身吸引我，而测绘专业也延伸到数字孪生、虚拟仿真等方向。两条线索在 Unity 上相遇，让我决定继续精进：从引擎基础、交互逻辑到项目工程化，逐步建立自己的能力体系。</p>
+              <time class="about-story-time">之后 · 持续精进</time>
+              <p class="about-story-meta">GOING DEEPER · 系统学习</p>
+              <p>兴趣开始有了清晰方向。我从引擎基础、交互逻辑一路学到项目工程化，也持续关注数字孪生与虚拟仿真，让零散知识逐渐成为能够落地的能力体系。</p>
             </div>
           </li>
           <li>
             <span class="about-story-index">04</span>
             <div>
-              <p class="about-story-meta">MORE DIMENSIONS · VR 与比赛</p>
-              <h3>当虚拟世界变得可进入，我看见了更多可能。</h3>
-              <p>一次偶然接触 VR 设备后，我开始尝试相关项目，并在多项数字化与创新设计比赛中获得奖项。比赛让我学会在有限时间里定义问题、组织协作，也把想法真正落成可体验的作品。</p>
+              <time class="about-story-time">实践期 · VR 与比赛</time>
+              <p class="about-story-meta">MORE DIMENSIONS · 沉浸式交互</p>
+              <p>接触 VR 设备后，我开始制作沉浸式交互项目，并在多项数字化与创新设计比赛中获得奖项。比赛训练了我在有限时间内定义问题、组织协作并交付可体验成果的能力。</p>
             </div>
           </li>
           <li>
             <span class="about-story-index">05</span>
             <div>
-              <p class="about-story-meta">THE DECISION · 游戏开发</p>
-              <h3>从“感兴趣”，走到认真选择这条路。</h3>
-              <p>后来，我报名系统性的 Unity 游戏开发课程，参加多次 21 天 Game Jam，并利用暑假进入游戏公司实习。项目、比赛与真实团队协作让我最终下定决心：把游戏客户端开发作为长期职业方向。</p>
+              <time class="about-story-time">2026 夏 · 走进团队</time>
+              <p class="about-story-meta">THE DECISION · 游戏开发实践</p>
+              <p>系统学习 Unity 游戏开发、参加多次 21 天 Game Jam，并在暑期进入游戏公司实习后，我经历了从快速原型到真实团队协作的完整过程，也由此确定游戏客户端开发是想长期投入的方向。</p>
             </div>
           </li>
-        </ol>
+          </ol>
+        </div>
+
+        <section class="journey-gallery" aria-labelledby="journey-gallery-title">
+          <header>
+            <div><span>PHOTO NOTES</span><h3 id="journey-gallery-title">沿途影像</h3></div>
+            <div class="journey-gallery-controls">
+              <button type="button" data-gallery-prev aria-label="上一张照片">←</button>
+              <span><b data-gallery-current>01</b> / 04</span>
+              <button type="button" data-gallery-next aria-label="下一张照片">→</button>
+            </div>
+          </header>
+          <div class="journey-gallery-viewport">
+            <div class="journey-gallery-track" data-journey-gallery-track>
+              <figure class="journey-gallery-slide is-active"><div class="journey-gallery-placeholder"><span>01</span><b>AI 手语项目</b><small>PHOTO PLACEHOLDER</small></div></figure>
+              <figure class="journey-gallery-slide"><div class="journey-gallery-placeholder"><span>02</span><b>VR 与比赛</b><small>PHOTO PLACEHOLDER</small></div></figure>
+              <figure class="journey-gallery-slide"><div class="journey-gallery-placeholder"><span>03</span><b>Game Jam</b><small>PHOTO PLACEHOLDER</small></div></figure>
+              <figure class="journey-gallery-slide"><div class="journey-gallery-placeholder"><span>04</span><b>游戏开发实习</b><small>PHOTO PLACEHOLDER</small></div></figure>
+            </div>
+          </div>
+        </section>
       </div>
     </section>
 
     <section class="about-contact" id="contact" aria-labelledby="contact-title">
       <div class="about-contact-copy">
         <span class="about-contact-index">03 / KEEP IN TOUCH</span>
-        <h2 id="contact-title">如果你也在做<br>有意思的游戏，<br><em>欢迎来聊聊。</em></h2>
-        <p>校招机会、项目交流，或只是分享一款最近喜欢的独立游戏，都可以找到我。</p>
+        <h2 id="contact-title">世界很大，<br><em>期待同路相遇。</em></h2>
+        <p>如果你有合适的岗位、项目想法，或刚好也喜欢独立游戏，欢迎从下面任一入口找到我。</p>
       </div>
       <address class="about-contact-list">
         <a href="mailto:2846314132@qq.com">
